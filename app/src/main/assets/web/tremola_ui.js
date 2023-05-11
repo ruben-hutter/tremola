@@ -15,9 +15,9 @@ let prev_scenario = 'chats';
 let curr_scenario = 'chats';
 
 // Array of the scenarios that have a button in the footer
-const main_scenarios = ['chats', 'contacts', 'connex'];
+const main_scenarios = ['chats', 'contacts', 'connex','game'];
 
-const buttonList = ['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex'];
+const buttonList = ['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex','btn:game'];
 
 /**
  * The elements contained by each scenario.
@@ -29,6 +29,7 @@ let scenarioDisplay = {
     'contacts': ['div:qr', 'core', 'lst:contacts', 'div:footer', 'plus'],
     'posts': ['div:back', 'core', 'lst:posts', 'div:textarea'],
     'connex': ['div:qr', 'core', 'the:connex', 'div:footer', 'plus'],
+    'game': ['game:ui'],
     'members': ['div:back', 'core', 'lst:members', 'div:confirm-members'],
     'settings': ['div:back', 'div:settings']
 }
@@ -98,12 +99,21 @@ function setScenario(new_scenario) {
             }
         })
         // Display the red TREMOLA title or another one
-        if (new_scenario === "posts" || new_scenario === "settings") {
+        if (new_scenario === "posts" || new_scenario === "settings" ) {
             document.getElementById('tremolaTitle').style.display = 'none';
             document.getElementById('conversationTitle').style.display = null;
-        } else {
+            document.getElementById('tremolaToe').style.display = 'none';
+        }
+         else if (new_scenario === "game") {
+                    document.getElementById('conversationTitle').style.display = 'none';
+                    document.getElementById('tremolaTitle').style.display = 'none';
+                    document.getElementById('tremolaToe').style.display = null;
+                }
+
+         else {
             document.getElementById('tremolaTitle').style.display = null;
             document.getElementById('conversationTitle').style.display = 'none';
+            document.getElementById('tremolaToe').style.display = 'none';
         }
         if (main_scenarios.indexOf(new_scenario) >= 0) {
             prev_scenario = new_scenario;
