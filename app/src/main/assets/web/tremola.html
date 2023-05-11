@@ -284,17 +284,21 @@
 
         <table width=100% cellpadding="2pt">
             <tr>
-                <td width=35%>
+                <td width=25%>
                     <button id='btn:chats' class="w100 flat active buttontext" onclick="btnBridge(this);"
                             style="background-image: url('img/chat.svg');">&nbsp;
                         <!-- font size=+3>&#x1F4E8;</font><br><font size=small>Chats</font --></button>
-                <td width=35%>
+                <td width=25%>
                     <button id='btn:contacts' class="w100 flat passive buttontext" onclick="btnBridge(this);"
                             style="background-image: url('img/contacts.svg');">&nbsp;
                         <!-- font size=+3>&#x1F465;</font><br><font size=small>Contacts</font --></button>
-                <td width=35%>
+                <td width=25%>
                     <button id='btn:connex' class="w100 flat passive buttontext" onclick="btnBridge(this);"
                             style="background-image: url('img/signal.svg');">&nbsp;
+                        <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
+                <td width=25%>
+                    <button id='btn:game' class="w100 flat passive buttontext" onclick="add_game();"
+                            style="background-image: url('img/checked.svg');">
                         <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
         </table>
 
@@ -430,7 +434,7 @@
         </div>
     </div>
 
-    <!--table id='game:ui' style="display: none;height: calc(100% - 60pt); width: calc(100% - 60pt); margin: 30pt;">
+    <table id='game:ui' style="display: none; height: calc(100% - 60pt); width: calc(100% - 60pt); margin: 30pt;">
         <tr>
             <td id="game:counter"
                 style="width: 100%; text-align: center; color: rgba(196,0,0,1); font-size: xxx-large;">
@@ -442,7 +446,7 @@
                         style="font-size: medium; height: 50px; width: calc(100% - 16px); margin: 8px; vertical-align: top">
                     Add 1
                 </button>
-    </--table-->
+    </table>
 </div>
 </body>
 </html>

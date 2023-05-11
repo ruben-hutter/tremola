@@ -170,6 +170,10 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
                     Log.e("BROADCAST", e.stackTraceToString())
                 }
             }
+            "game:ui" -> {
+                Log.d("onFrontendRequest", "game request received")
+                eval("receive_from_backend('Reply to ${args[1]}: Hi!')")
+            }
             else -> {
                 Log.d("onFrontendRequest", "unknown")
             }
