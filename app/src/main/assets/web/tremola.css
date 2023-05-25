@@ -138,7 +138,7 @@ textarea {
     width: 100%;
     cursor: pointer;
     z-index: 1000; /* high z-index */
-    background: trans;
+    background: transparent;
 }
 
 .float_button {
@@ -188,7 +188,7 @@ textarea {
     font-size: medium;
     border-radius: 4pt;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    text-overflow: ellipis;
+    text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
 }
@@ -364,7 +364,6 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #37505C;
 }
 
 #gameBoard {
