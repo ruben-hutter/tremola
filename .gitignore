@@ -1,5 +1,9 @@
 *.iml
 .gradle
+*AndroidManifest.xml
+*misc.xml
+*gradle.xml
+*build.gradle
 /local.properties
 /.idea/caches
 /.idea/libraries
