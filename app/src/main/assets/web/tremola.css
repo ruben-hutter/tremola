@@ -368,7 +368,7 @@ input:checked + .slider:before {
 }
 
 #gameBoard {
-    width: 300px;
+    width: 304px;
     display: flex;
     flex-wrap: wrap;
     margin-top: 40px;
