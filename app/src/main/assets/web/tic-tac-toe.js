@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const winningCombo = playerHasWon();
             if (winningCombo !== false) {
+                document.getElementById('playerText').style.display = null;
+                document.getElementById('gameBoard').style.display = 'none';
+
                 playerText.innerHTML = `${currentPlayer} has won!`;
                 let winning_blocks = winningCombo;
 
@@ -67,7 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             box.style.backgroundColor='';
         })
 
-        playerText.innerHTML = 'Tic Tac Toe';
+        document.getElementById('playerText').style.display = 'none';
+        document.getElementById('gameBoard').style.display = null;
 
         currentPlayer = X_TEXT;
     }

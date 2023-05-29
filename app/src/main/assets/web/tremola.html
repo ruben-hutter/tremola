@@ -39,6 +39,10 @@
                  style="display: none; padding-left: 5px; padding-right: 5px; padding-top: 2px; color: #e85132; font-size: small; overflow: hidden; width: 100%;">
                 ABC
             </div>
+            <div id='tremolaToeTitle' align=center
+                 style="display: none; padding-top: 2pt; width: 100%;font-family: Helvetica;font-weight: 900;"><font size=+2
+                                                                                                      color=#e85132>T r e m
+                o l a T o e<!-- &#x26F0; --></font></div>
             <div>
                 <button id='btn:menu' class="flat neutral" onclick="btnBridge(this);"
                         style="vertical-align: top; background-color: transparent; padding-top: 3pt;"><font size=+1>&nbsp;<strong>&#9776;</strong>&nbsp;</font>
@@ -451,8 +455,9 @@
     </table>
     -->
     <div id="game:ui">
-        <h1 id="playerText">Tic Tac Toe</h1>
-        <button id="restartBtn">Restart</button>
+
+        <h1 id="playerText" style="display: none">Tic Tac Toe</h1>
+
 
         <div id="gameBoard">
             <div class="box" id="0"></div>
@@ -465,7 +470,21 @@
             <div class="box" id="7"></div>
             <div class="box" id="8"></div>
         </div>
+
+        <div id='div:Gamefooter' class=neutral
+             style="height: 56px; align-content: center; border: 3px inset var(--light); border-radius: 2px; margin: 3px; width: calc(100% - 12px);">
+
+            <table width=100% cellpadding="2pt">
+                <tr>
+                    <td width=50%>
+                        <button id="restartBtn" class="w100 flat active buttontext"  >Restart</button>
+                    <td width=50%>
+                       <button id="invite" class="w100 flat active buttontext"  >Send</button>
+            </table>
+
+        </div>
     </div>
+
 </div>
 </body>
 </html>
