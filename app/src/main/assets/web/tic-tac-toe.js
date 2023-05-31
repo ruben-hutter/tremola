@@ -3,26 +3,32 @@ document.addEventListener('DOMContentLoaded', () => {
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
     let boxes = Array.from(document.getElementsByClassName('box'));
-
+    let clicked = false
+    document.getElementById('send').addEventListener("click", function() {
+        clicked = true;
+        console.log(clicked)
+    });
     //TODO fix the missing property
     let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
-
+    let id;
+    let targetBox;
     const O_TEXT = "O";
     const X_TEXT = "X";
     let currentPlayer = X_TEXT;
+    let previousPlayer = currentPlayer;
     let spaces = Array(9).fill(null);
-
     const startGame = () => {
         boxes.forEach(box => box.addEventListener('click', boxClicked));
     }
 
     function boxClicked(e) {
-        const id = e.target.id;
 
-        if (!spaces[id]) {
+        id = e.target.id;
+
+
+        if (!spaces[id] && clicked) {
             spaces[id] = currentPlayer;
             e.target.innerText = currentPlayer;
-
             const winningCombo = playerHasWon();
             if (winningCombo !== false) {
                 document.getElementById('playerText').style.display = null;
@@ -31,11 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 playerText.innerHTML = `${currentPlayer} has won!`;
                 let winning_blocks = winningCombo;
 
-                winning_blocks.map(box => boxes[box].style.backgroundColor=winnerIndicator);
+                winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
                 return;
-            }
+                }
 
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
+            clicked = false;
         }
     }
 
@@ -73,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('playerText').style.display = 'none';
         document.getElementById('gameBoard').style.display = null;
-
+        document.getElementById('gameBoard').style.opacity = 1;
         currentPlayer = X_TEXT;
     }
 
