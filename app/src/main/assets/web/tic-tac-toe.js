@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const winningCombo = playerHasWon();
             if (winningCombo !== false) {
                 document.getElementById('playerText').style.display = null;
-                document.getElementById('gameBoard').style.display = 'none';
+                document.getElementById('gameBoard').style.opacity = 0.5;
 
                 playerText.innerHTML = `${currentPlayer} has won!`;
                 let winning_blocks = winningCombo;
