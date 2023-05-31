@@ -52,8 +52,7 @@ let scenarioMenu = {
         ['(un)Forget', 'menu_forget_conv'],
         ['Settings', 'menu_settings'],
         ['About', 'menu_about'],
-        ['Games', 'menu_games'],
-        ['Launch my game', 'add_game']],
+        ['Games', 'menu_games']],
     'members': [['Settings', 'menu_settings'],
         ['About', 'menu_about']],
     'gamesList': [['Help', 'menu_help'],
@@ -350,9 +349,6 @@ function add_game() {
 function menu_games() {
     closeOverlay();
     setScenario('gamesList');
-    //backend('game:List')
-    //launch_snackbar("test");
-    //backend('game:ui hello!');
 }
 
 function menu_help() {

@@ -307,11 +307,7 @@
                     <button id='btn:connex' class="w100 flat passive buttontext" onclick="btnBridge(this);"
                             style="background-image: url('img/signal.svg');">&nbsp;
                         <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
-                <td width=25%>
-                    <button id='btn:game' class="w100 flat passive buttontext" onclick="add_game();"
-                            style="background-image: url('img/tic-tac-toe-icon.svg');">
-                        <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
-        </table>
+                </table>
 
     </div>
 
@@ -447,9 +443,17 @@
 
     <table id='game:List' style="display: none;height: calc(100% - 60pt); width: calc(100% - 60pt); margin: 30pt;">
         <td style="vertical-align: top">
-            <button class="flat passive" onclick="btnBridge(this);"
+            <button class="flat passive" onclick="add_game();"
                 style="font-size: medium; height: 50px; width: calc(100% - 16px); margin: 8px; vertical-align: top">
                 TremolaToe
+            </button>
+            <button class="flat passive" onclick="add_game();"
+                    style="font-size: medium; height: 50px; width: calc(100% - 16px); margin: 8px; vertical-align: top">
+                Games 2
+            </button>
+            <button class="flat passive" onclick="add_game();"
+                    style="font-size: medium; height: 50px; width: calc(100% - 16px); margin: 8px; vertical-align: top">
+                Game 3
             </button>
     </table>
 
