@@ -7,6 +7,7 @@
     <script type="text/javascript" charset="UTF-8" src="tremola_settings.js"></script>
     <script type="text/javascript" charset="UTF-8" src="tremola_ui.js"></script>
     <script type="text/javascript" charset="UTF-8" src="qrcode.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="tic-tac-toe.js"></script>
 </head>
 <body style="background-image: url('img/splash-as-background.jpg'); background-size: cover; background-color: white; overflow: hidden"
       onload="backend('ready');">
@@ -302,9 +303,9 @@
                             style="background-image: url('img/signal.svg');">&nbsp;
                         <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
                 <td width=25%>
-                    <button id='btn:game' class="w100 flat passive buttontext" onclick="btnBridge(this);"
-                            style="background-image: url('img/tic-tac-toe-icon.svg');">&nbsp;
-                        <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Game</font --></button>
+                    <button id='btn:game' class="w100 flat passive buttontext" onclick="add_game();"
+                            style="background-image: url('img/tic-tac-toe-icon.svg');">
+                        <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
         </table>
 
     </div>
@@ -439,7 +440,8 @@
         </div>
     </div>
 
-    <table id='game:ui' style="display: none;height: calc(100% - 60pt); width: calc(100% - 60pt); margin: 30pt;">
+    <!--
+    <table id='game:ui' style="display: none; height: calc(100% - 60pt); width: calc(100% - 60pt); margin: 30pt;">
         <tr>
             <td id="game:counter"
                 style="width: 100%; text-align: center; color: rgba(196,0,0,1); font-size: xxx-large;">
@@ -452,6 +454,23 @@
                     Add 1
                 </button>
     </table>
+    -->
+    <div id="game:ui">
+        <h1 id="playerText">Tic Tac Toe</h1>
+        <button id="restartBtn">Restart</button>
+
+        <div id="gameBoard">
+            <div class="box" id="0"></div>
+            <div class="box" id="1"></div>
+            <div class="box" id="2"></div>
+            <div class="box" id="3"></div>
+            <div class="box" id="4"></div>
+            <div class="box" id="5"></div>
+            <div class="box" id="6"></div>
+            <div class="box" id="7"></div>
+            <div class="box" id="8"></div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

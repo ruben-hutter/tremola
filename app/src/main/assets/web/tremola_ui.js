@@ -8,7 +8,8 @@ let display_or_not = [
     'div:qr', 'div:back',
     'core', 'lst:chats', 'lst:posts', 'lst:contacts', 'lst:members', 'the:connex',
     'div:footer', 'div:textarea', 'div:confirm-members', 'plus',
-    'div:settings'
+    'div:settings',
+    'game:ui'
 ];
 
 let prev_scenario = 'chats';
@@ -29,9 +30,9 @@ let scenarioDisplay = {
     'contacts': ['div:qr', 'core', 'lst:contacts', 'div:footer', 'plus'],
     'posts': ['div:back', 'core', 'lst:posts', 'div:textarea'],
     'connex': ['div:qr', 'core', 'the:connex', 'div:footer', 'plus'],
-    'game': ['game:ui'],
     'members': ['div:back', 'core', 'lst:members', 'div:confirm-members'],
-    'settings': ['div:back', 'div:settings']
+    'settings': ['div:back', 'div:settings'],
+    'game': ['game:ui'],
 }
 
 let scenarioMenu = {
@@ -48,7 +49,8 @@ let scenarioMenu = {
     'posts': [['Rename', 'menu_edit_convname'],
         ['(un)Forget', 'menu_forget_conv'],
         ['Settings', 'menu_settings'],
-        ['About', 'menu_about']],
+        ['About', 'menu_about'],
+        ['Launch my game', 'add_game']],
     'members': [['Settings', 'menu_settings'],
         ['About', 'menu_about']],
 
@@ -329,4 +331,19 @@ function look_up(shortname) {
     }
 }
 
-// ---
+function add_game() {
+    setScenario('game');
+    closeOverlay();
+    launch_snackbar("test");
+    backend('game:ui hello!');
+}
+
+function receive_from_backend(s) {
+    console.log(s);
+}
+
+function increment() {
+    let gameCounter = parseInt(document.getElementById("game:counter").innerText);
+    gameCounter++;
+    document.getElementById("game:counter").innerText = gameCounter.toString();
+}
