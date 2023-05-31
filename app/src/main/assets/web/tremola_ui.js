@@ -160,7 +160,7 @@ function btnBridge(element) {
 
     }
     if (element === 'game:List') {
-
+            //setScenario('TremolaToe')
     }
     // if (typeof Android != "undefined") { Android.onFrontendRequest(element); }
 }
