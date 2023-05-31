@@ -138,7 +138,7 @@ textarea {
     width: 100%;
     cursor: pointer;
     z-index: 1000; /* high z-index */
-    background: trans;
+    background: transparent;
 }
 
 .float_button {
@@ -188,7 +188,7 @@ textarea {
     font-size: medium;
     border-radius: 4pt;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    text-overflow: ellipis;
+    text-overflow: ellipsis;
     overflow: hidden;
     display: inline-block;
 }
@@ -355,4 +355,49 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+#game\:ui {
+    padding: 40px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#gameBoard {
+    position: absolute;
+    top: 60px;
+    width: 385px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    color: var(--red);
+}
+.box {
+    height: 200px;
+    width: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--red);
+    font-size: 120px;
+    font-family: "Noto Sans";
+    font-style: italic;
+
+    border-right: 5px solid;
+    border-bottom: 5px solid;
+}
+
+.box:nth-child(3n) {
+    border-right: none;
+}
+.box:nth-child(6) ~ .box {
+    border-bottom: none;
+}
+#div\:Gamefooter{
+    position: absolute;
+    bottom: 0px;
+    width: 400px;
 }

@@ -52,8 +52,8 @@ let scenarioMenu = {
         ['(un)Forget', 'menu_forget_conv'],
         ['Settings', 'menu_settings'],
         ['About', 'menu_about'],
-        ['Launch my game', 'add_game'],
         ['Games', 'menu_games']],
+        ['Launch my game', 'add_game']],
     'members': [['Settings', 'menu_settings'],
         ['About', 'menu_about']],
     'gamesList': [['Help', 'menu_help'],
@@ -106,7 +106,7 @@ function setScenario(new_scenario) {
             }
         })
         // Display the red TREMOLA title or another one
-        if (new_scenario === "posts" || new_scenario === "settings" ) {
+        if (new_scenario === "posts" || new_scenario === "settings") {
             document.getElementById('tremolaTitle').style.display = 'none';
             document.getElementById('conversationTitle').style.display = null;
             document.getElementById('tremolaToe').style.display = 'none';
@@ -125,7 +125,7 @@ function setScenario(new_scenario) {
          else {
             document.getElementById('tremolaTitle').style.display = null;
             document.getElementById('conversationTitle').style.display = 'none';
-            document.getElementById('tremolaToe').style.display = 'none';
+            document.getElementById('tremolaToeTitle').style.display = 'none';
         }
         if (main_scenarios.indexOf(new_scenario) >= 0) {
             prev_scenario = new_scenario;
@@ -362,6 +362,7 @@ function menu_games() {
 function menu_help() {
     closeOverlay();
 }
+
 function receive_from_backend(s) {
     console.log(s);
 }
