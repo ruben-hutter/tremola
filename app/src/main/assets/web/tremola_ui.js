@@ -109,18 +109,22 @@ function setScenario(new_scenario) {
             document.getElementById('tremolaTitle').style.display = 'none';
             document.getElementById('conversationTitle').style.display = null;
             document.getElementById('tremolaToe').style.display = 'none';
+            document.getElementById('tremolaToeTitle').style.display = 'none';
         } else if (new_scenario === "game") {
             document.getElementById('conversationTitle').style.display = 'none';
             document.getElementById('tremolaTitle').style.display = 'none';
-            document.getElementById('tremolaToe').style.display = null;
+            document.getElementById('tremolaToe').style.display = 'none';
+            document.getElementById('tremolaToeTitle').style.display = null;
         } else if (new_scenario === "gamesList") {
             document.getElementById('conversationTitle').style.display = 'none';
             document.getElementById('tremolaTitle').style.display = 'none';
             document.getElementById('tremolaToe').style.display = null;
+            document.getElementById('tremolaToeTitle').style.display = 'none';
         }
          else {
             document.getElementById('tremolaTitle').style.display = null;
             document.getElementById('conversationTitle').style.display = 'none';
+            document.getElementById('tremolaToe').style.display = 'none';
             document.getElementById('tremolaToeTitle').style.display = 'none';
         } if (main_scenarios.indexOf(new_scenario) >= 0) {
             prev_scenario = new_scenario;
