@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         boxes.forEach( box => {
             box.innerText = '';
             box.style.backgroundColor='';
+            box.style.pointerEvents = null;
         })
 
         document.getElementById('playerText').style.display = 'none';
