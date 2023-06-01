@@ -24,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function boxClicked(e) {
 
         id = e.target.id;
-        e.target.innerText = currentPlayer;
+
 
         if (!spaces[id] && clicked) {
             spaces[id] = currentPlayer;
-
+            e.target.innerText = currentPlayer;
             const winningCombo = playerHasWon();
             if (winningCombo !== false) {
                 document.getElementById('playerText').style.display = null;
