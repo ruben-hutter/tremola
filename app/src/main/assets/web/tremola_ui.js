@@ -19,7 +19,7 @@ let curr_scenario = 'chats';
 // Array of the scenarios that have a button in the footer
 const main_scenarios = ['chats', 'contacts', 'connex','game'];
 
-const buttonList = ['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex','btn:game'];
+const buttonList = ['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex'];
 
 /**
  * The elements contained by each scenario.
@@ -57,7 +57,6 @@ let scenarioMenu = {
         ['About', 'menu_about']],
     'gamesList': [['Help', 'menu_help'],
         ['About', 'menu_about']],
-
     'settings': []
 }
 
