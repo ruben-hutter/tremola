@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     restartBtn.addEventListener('click', restart);
 
+    //Should only be able to toggle if game is already ended, and not in midgame.
     function restart() {
         spaces.fill(null);
 
