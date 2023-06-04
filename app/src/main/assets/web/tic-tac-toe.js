@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Should only be able to toggle if game is already ended, and not in midgame.
     function restart() {
-        if (playerHasWon()) {
+        if (playerHasWon() || checkAllBoxes()) {
             spaces.fill(null);
 
             boxes.forEach(box => {
@@ -115,5 +115,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    startGame();
-});
+        function checkAllBoxes() {
+            let counter = 0;
+            boxes.forEach(box => {
+
+                if (box.innerText !== "") {
+                    counter++;
+                }
+
+                })
+            console.log(counter)
+            if (counter == 9) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+
+        startGame();
+    });
