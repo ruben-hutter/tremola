@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Your code here
+    var gameState = [];
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
     let boxes = Array.from(document.getElementsByClassName('box'));
@@ -17,10 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('send').addEventListener("click", function () {
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
+            gameState[10] = 1;
+            gameState[id] = 1;
+            console.log("gameState: " + gameState);
             id.innerText = currentPlayer;
             document.getElementById(id).style.pointerEvents = 'none'
             const winningCombo = playerHasWon();
             if (winningCombo !== false) {
+                //TODO: Case distinction for winning gameState.
                 document.getElementById('playerText').style.display = null;
                 document.getElementById('gameBoard').style.opacity = 0.5;
 
@@ -32,12 +37,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
-
+            new_post_gameState(gameState); //Send the gameState as message to the other client
+            //TODO: After send is clicked we need to change back to the correct chat automatically.
+            load_chat(curr_chat);
         }
 
     });
     const startGame = () => {
         boxes.forEach(box => box.addEventListener('click', boxClicked));
+        /*generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
+         the boxes, last number indicates the current state.
+         0 = No game running
+         1 = its hosts turn
+         2 = its the opponents turn
+         3 = host won
+         4 = opponent won
+*/
+        for(let i = 0; i<=9; i++){
+            gameState[i] = 0;
+        }
     }
 
     function boxClicked(e) {
@@ -47,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
         id = e.target.id;
+        //gameState[id - 1] = 1; // should save the clicked box into the gameState.
+        console.log(gameState);
         targetBox = e.target;
         e.target.innerText = currentPlayer;
         previousPlayer = currentPlayer;
@@ -108,6 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('gameBoard').style.display = null;
         document.getElementById('gameBoard').style.opacity = 1;
         currentPlayer = X_TEXT;
+    }
+    //TODO: Should load the current gameState of the game.
+    function LoadGame() {
+
     }
 
     startGame();
