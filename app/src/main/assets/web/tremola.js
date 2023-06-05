@@ -191,7 +191,21 @@ function new_post(s) {
     }
     var draft = unicodeStringToTypedArray(document.getElementById('draft').value); // escapeHTML(
     var recps = tremola.chats[curr_chat].members.join(' ')
+    console.info("current chat: "+ curr_chat);
     backend("priv:post " + btoa(draft) + " " + recps);
+    var c = document.getElementById('core');
+    c.scrollTop = c.scrollHeight;
+    document.getElementById('draft').value = '';
+    closeOverlay();
+}
+
+function new_post_gameState(gameState) {
+    if (gameState.length === 0) {
+        return;
+    }
+    //var draft = unicodeStringToTypedArray(document.getElementById('draft').value); // escapeHTML(
+    var recps = tremola.chats[curr_chat].members.join(' ')
+    backend("priv:gameState " + btoa(gameState) + " " + recps);
     var c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
     document.getElementById('draft').value = '';
@@ -544,7 +558,7 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         b2f_initialize('@AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=.ed25519')
     else if (cmdStr[0] === 'exportSecret')
         b2f_showSecret('secret_of_id_which_is@AAAA==.ed25519')
-    else if (cmdStr[0] === 'priv:post') {
+    else if (cmdStr[0] === 'priv:post' || cmdStr[0] === 'priv:gameState') {
         var draft = atob(cmdStr[1])
         cmdStr.splice(0, 2)
         var e = {
@@ -621,12 +635,12 @@ function b2f_new_contact_lookup(target_short_name, new_contact_id) {
     persist();
     menu_redraw();
 }
-
+//TODO: Add functionality to filter the gameState, such that it does not get posted as normal message.
 function b2f_new_event(e) { // incoming SSB log event: we get map with three entries
     // console.log('hdr', JSON.stringify(e.header))
     // console.log('pub', JSON.stringify(e.public))
     // console.log('cfd', JSON.stringify(e.confid))
-    if (e.confid && e.confid.type === 'post') {
+    if (e.confid && e.confid.type === 'post' || e.confid && e.confid.type === 'gameState') {
         var i, conv_name = recps2nm(e.confid.recps);
         if (!(conv_name in tremola.chats)) { // create new conversation if needed
             tremola.chats[conv_name] = {
