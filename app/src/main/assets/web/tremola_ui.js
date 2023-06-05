@@ -342,6 +342,7 @@ function look_up(shortname) {
     }
 }
 
+//TODO: Need to send with which contact we are playing the game to change back properly.
 function add_game() {
     setScenario('game');
     closeOverlay();
