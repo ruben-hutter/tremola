@@ -343,13 +343,15 @@ function look_up(shortname) {
 }
 
 //TODO: Need to send with which contact we are playing the game to change back properly.
-function add_game() {
-    //TODO check if game is already active
+function open_game(game) {
+    if (game in tremola.games) {
+        //TODO load gameState of the game
+        loadGame();
+    }
     setScenario('game');
     closeOverlay();
-    launch_snackbar("test");
     //TODO: decide backend to use
-    backend('game:ui hello!');
+    //backend('game:ui hello!');
 }
 
 function menu_games() {

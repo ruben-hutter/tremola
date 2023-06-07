@@ -583,6 +583,7 @@ function resetTremola() { // wipes browser-side content
         "chats": {},
         "contacts": {},
         "profile": {},
+        "games": {},
         "id": myId,
         "settings": get_default_settings()
     }

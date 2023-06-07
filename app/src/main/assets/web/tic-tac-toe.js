@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Your code here
     let gameState;
+    let opponentId = tremola.chats[curr_chat]["members"][1];
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
     let boxes = Array.from(document.getElementsByClassName('box'));
@@ -38,7 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
-            new_post_gameState(gameState); //Send the gameState as message to the other client
+            tremola.games["tremola_toe"][opponentId] = gameState; // update gameState locally
+            new_post_gameState(gameState); // send the gameState as message to the other client
             //TODO: After send is clicked we need to change back to the correct chat automatically.
             load_chat(curr_chat);
         }
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
          4 = opponent won
         */
         gameState = new Array(10).fill(0);
+        tremola.games["tremola_toe"] = gameState;
     }
 
     function boxClicked(e) {
@@ -66,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         id = e.target.id;
         //gameState[id - 1] = 1; // should save the clicked box into the gameState.
-        console.log("boxClicked" + gameState);
+        console.log("boxClicked: " + gameState);
         targetBox = e.target;
         e.target.innerText = currentPlayer;
         previousPlayer = currentPlayer;
@@ -130,8 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPlayer = X_TEXT;
     }
 
-    //TODO: Should load the current gameState of the game.
-    function LoadGame() {
+    function loadGame() {
+        let games = tremola.games["tremola_toe"]; // tremola_toe: {"id": gameState, ...}
+
+        var n = recps2nm([myId]);
+        tremola.chats[n] = {
+            "alias": "local notes (for my eyes only)", "posts": {}, "forgotten": false,
+            "members": [myId], "touched": Date.now(), "lastRead": 0
+        };
     }
 
     startGame();
