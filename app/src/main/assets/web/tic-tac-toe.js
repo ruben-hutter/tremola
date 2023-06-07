@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Your code here
     let gameState;
-    let opponentId = tremola.chats[curr_chat]["members"][1];
+    //TODO: find a way to use the same object as already loaded in tremola.js
+    let tremola = JSON.parse(window.localStorage.getItem('tremola'));
+    let opponentId = Object.values(tremola.chats)[0].members[1];
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
     let boxes = Array.from(document.getElementsByClassName('box'));
 
 
-    //TODO fix the missing property
+    //TODO: fix the missing property
     let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
     let id;
     let targetBox;
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('send').addEventListener("click", function () {
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
-            //TODO why gameState[10] set to 1?
+            //TODO: why gameState[10] set to 1?
             gameState[10] = 1;
             gameState[id] = 1;
             console.log("gameState: " + gameState);
@@ -58,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
          4 = opponent won
         */
         gameState = new Array(10).fill(0);
-        tremola.games["tremola_toe"] = gameState;
+        if (!tremola.games.hasOwnProperty("tremola_toe")) {
+            tremola.games["tremola_toe"] = {};
+        }
+        tremola.games.tremola_toe[opponentId] = gameState;
     }
 
     function boxClicked(e) {
@@ -134,13 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadGame() {
-        let games = tremola.games["tremola_toe"]; // tremola_toe: {"id": gameState, ...}
-
-        var n = recps2nm([myId]);
-        tremola.chats[n] = {
-            "alias": "local notes (for my eyes only)", "posts": {}, "forgotten": false,
-            "members": [myId], "touched": Date.now(), "lastRead": 0
-        };
+        //TODO set gameState to the one received from backend
+        gameState = tremola.games["tremola_toe"][opponentId]; // tremola_toe: {"id": gameState, ...}
     }
 
     startGame();

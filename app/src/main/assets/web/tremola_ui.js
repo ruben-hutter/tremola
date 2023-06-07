@@ -17,7 +17,7 @@ let prev_scenario = 'chats';
 let curr_scenario = 'chats';
 
 // Array of the scenarios that have a button in the footer
-const main_scenarios = ['chats', 'contacts', 'connex','game'];
+const main_scenarios = ['chats', 'contacts', 'connex', 'game'];
 
 const buttonList = ['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex'];
 
@@ -347,6 +347,7 @@ function open_game(game) {
     if (game in tremola.games) {
         //TODO load gameState of the game
         loadGame();
+        console.log(game + "in tremola.games");
     }
     setScenario('game');
     closeOverlay();
