@@ -203,6 +203,7 @@ function new_post_gameState(gameState) {
     if (gameState.length === 0) {
         return;
     }
+    //TODO Can we clean up this?
     //var draft = unicodeStringToTypedArray(document.getElementById('draft').value); // escapeHTML(
     var recps = tremola.chats[curr_chat].members.join(' ')
     backend("priv:gameState " + btoa(gameState) + " " + recps);

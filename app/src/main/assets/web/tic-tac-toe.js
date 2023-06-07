@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Your code here
-    var gameState = [];
+    let gameState;
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
     let boxes = Array.from(document.getElementsByClassName('box'));
@@ -14,10 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const X_TEXT = "X";
     let currentPlayer = X_TEXT;
     let previousPlayer = currentPlayer;
-    let spaces = Array(9).fill(null);
+    let spaces = new Array(9).fill(null);
     document.getElementById('send').addEventListener("click", function () {
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
+            //TODO why gameState[10] set to 1?
             gameState[10] = 1;
             gameState[id] = 1;
             console.log("gameState: " + gameState);
@@ -41,32 +42,31 @@ document.addEventListener('DOMContentLoaded', () => {
             //TODO: After send is clicked we need to change back to the correct chat automatically.
             load_chat(curr_chat);
         }
-
     });
+
     const startGame = () => {
         boxes.forEach(box => box.addEventListener('click', boxClicked));
-        /*generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
+        /*
+        generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
          the boxes, last number indicates the current state.
          0 = No game running
          1 = its hosts turn
          2 = its the opponents turn
          3 = host won
          4 = opponent won
-*/
-        for(let i = 0; i<=9; i++){
-            gameState[i] = 0;
-        }
+        */
+        gameState = new Array(10).fill(0);
     }
 
     function boxClicked(e) {
-        console.log(e.target.id)
+        console.log("boxClicked: " + e.target.id)
         if (e.target.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
             targetBox.innerText="";
 
         }
         id = e.target.id;
         //gameState[id - 1] = 1; // should save the clicked box into the gameState.
-        console.log(gameState);
+        console.log("boxClicked" + gameState);
         targetBox = e.target;
         e.target.innerText = currentPlayer;
         previousPlayer = currentPlayer;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }*/
     }
 
-    const winningCombos = [
+    const WINNING_COMBOS = [
         [0,1,2],
         [3,4,5],
         [6,7,8],
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     function playerHasWon() {
-        for (const condition of winningCombos) {
+        for (const condition of WINNING_COMBOS) {
             let [a, b, c] = condition;
 
             if (spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     restartBtn.addEventListener('click', restart);
 
-    //Should only be able to toggle if game is already ended, and not in midgame.
+    //TODO Should only be able to toggle if game is already ended, and not in mid-game.
     function restart() {
         spaces.fill(null);
 
@@ -129,9 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('gameBoard').style.opacity = 1;
         currentPlayer = X_TEXT;
     }
+
     //TODO: Should load the current gameState of the game.
     function LoadGame() {
-
     }
 
     startGame();

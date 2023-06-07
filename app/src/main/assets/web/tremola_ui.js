@@ -344,9 +344,11 @@ function look_up(shortname) {
 
 //TODO: Need to send with which contact we are playing the game to change back properly.
 function add_game() {
+    //TODO check if game is already active
     setScenario('game');
     closeOverlay();
     launch_snackbar("test");
+    //TODO: decide backend to use
     backend('game:ui hello!');
 }
 
@@ -357,14 +359,4 @@ function menu_games() {
 
 function menu_help() {
     closeOverlay();
-}
-
-function receive_from_backend(s) {
-    console.log(s);
-}
-
-function increment() {
-    let gameCounter = parseInt(document.getElementById("game:counter").innerText);
-    gameCounter++;
-    document.getElementById("game:counter").innerText = gameCounter.toString();
 }
