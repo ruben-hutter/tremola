@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameState;
     //TODO: find a way to use the same object as already loaded in tremola.js
     let tremola = JSON.parse(window.localStorage.getItem('tremola'));
+    //TODO: change 0 to curr_chat when solved in tremola_ui.js
     let opponentId = Object.values(tremola.chats)[0].members[1];
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
@@ -45,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             new_post_gameState(gameState); // send the gameState as message to the other client
             //TODO: After send is clicked we need to change back to the correct chat automatically.
             load_chat(curr_chat);
+            console.log(tremola.games);
         }
     });
 
@@ -52,12 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
         boxes.forEach(box => box.addEventListener('click', boxClicked));
         /*
         generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
-         the boxes, last number indicates the current state.
-         0 = No game running
-         1 = its hosts turn
-         2 = its the opponents turn
-         3 = host won
-         4 = opponent won
+        the boxes, last number indicates the current state.
+        0 = No game running
+        1 = its hosts turn
+        2 = its the opponents turn
+        3 = host won
+        4 = opponent won
+
+        game_state,user_id_X,user_id_O,user_to_play,player_won
+
+        game_state: "000010000"
+        user_id_X: "@fNoT8IEpLD9fO9S76ICLJA3w+vr2xX8ZX1yBmb0PENs=.ed25519"
+        user_id_O: same as for X
+        user_to_play: user_id_X/O
+        player_won: user_id_X/O or 0 if nobody won
         */
         gameState = new Array(10).fill(0);
         if (!tremola.games.hasOwnProperty("tremola_toe")) {
@@ -67,14 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function boxClicked(e) {
-        console.log("boxClicked: " + e.target.id)
+        //console.log("boxClicked: " + e.target.id)
         if (e.target.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
             targetBox.innerText="";
 
         }
         id = e.target.id;
         //gameState[id - 1] = 1; // should save the clicked box into the gameState.
-        console.log("boxClicked: " + gameState);
+        //console.log("boxClicked: " + gameState);
         targetBox = e.target;
         e.target.innerText = currentPlayer;
         previousPlayer = currentPlayer;
@@ -140,8 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadGame() {
         //TODO set gameState to the one received from backend
-        gameState = tremola.games["tremola_toe"][opponentId]; // tremola_toe: {"id": gameState, ...}
+        gameState = tremola.games.tremola_toe[opponentId]; // tremola_toe: {"id": gameState, ...}
     }
 
-    startGame();
+    //startGame();
 });

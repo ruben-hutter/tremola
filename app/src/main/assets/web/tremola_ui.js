@@ -344,10 +344,12 @@ function look_up(shortname) {
 
 //TODO: Need to send with which contact we are playing the game to change back properly.
 function open_game(game) {
+    //TODO: call methods in tic-tac-toe.js
     if (game in tremola.games) {
-        //TODO load gameState of the game
         loadGame();
         console.log(game + "in tremola.games");
+    } else {
+        startGame(tremola, curr_chat);
     }
     setScenario('game');
     closeOverlay();
