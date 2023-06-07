@@ -32,6 +32,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
                 return;
+            } else if (checkAllBoxes()) {
+                document.getElementById('playerText').style.display = null;
+                document.getElementById('gameBoard').style.opacity = 0.5;
+
+                playerText.innerHTML = `No one one`;
+                boxes.forEach(box => {
+                    box.style.pointerEvents = 'none';
+                })
+
+                return;
             }
 
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
