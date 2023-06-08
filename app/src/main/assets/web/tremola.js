@@ -719,5 +719,15 @@ function b2f_initialize(id) {
     closeOverlay();
     setScenario('chats');
 }
+function boxClickedTrem(e){
+    console.log(e);
+    boxClicked(e);
+}
+function sendTremola() {
+    send();
+}
+function restartTremola() {
+    restart();
+}
 
 // --- eof

@@ -1,13 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
+
     // Your code here
     var gameState = [];
     let playerText = document.getElementById('playerText');
-    let restartBtn = document.getElementById('restartBtn');
-    let boxes = Array.from(document.getElementsByClassName('box'));
+
+    let boxes;
 
 
     //TODO fix the missing property
-    let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
+    //let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
     let id;
     let targetBox;
     const O_TEXT = "O";
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPlayer = X_TEXT;
     let previousPlayer = currentPlayer;
     let spaces = Array(9).fill(null);
-    document.getElementById('send').addEventListener("click", function () {
+    function send(){
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
             gameState[10] = 1;
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('playerText').style.display = null;
                 document.getElementById('gameBoard').style.opacity = 0.5;
 
-                playerText.innerHTML = `${currentPlayer} has won!`;
+                playerText.innerText = `${currentPlayer} has won!`;
                 boxes.forEach(box => {
                     box.style.pointerEvents = 'none';
                 })
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('playerText').style.display = null;
                 document.getElementById('gameBoard').style.opacity = 0.5;
 
-                playerText.innerHTML = `No one one`;
+                playerText.innerHTML = `No one won`;
                 boxes.forEach(box => {
                     box.style.pointerEvents = 'none';
                 })
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             load_chat(curr_chat);
         }
 
-    });
+    }
     const startGame = () => {
         boxes.forEach(box => box.addEventListener('click', boxClicked));
         /*generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
@@ -72,16 +72,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function boxClicked(e) {
-        console.log(e.target.id)
-        if (e.target.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
+        var e = document.getElementById(e);
+        console.log(e)
+        if (e.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
             targetBox.innerText="";
 
         }
-        id = e.target.id;
+        id = e.id;
         //gameState[id - 1] = 1; // should save the clicked box into the gameState.
         console.log(gameState);
-        targetBox = e.target;
-        e.target.innerText = currentPlayer;
+        targetBox = e;
+        e.innerText = currentPlayer;
         previousPlayer = currentPlayer;
         /*if (!spaces[id] && clicked) {
             spaces[id] = currentPlayer;
@@ -125,10 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     }
 
-    restartBtn.addEventListener('click', restart);
+    //restartBtn.addEventListener('click', restart);
 
     //Should only be able to toggle if game is already ended, and not in midgame.
     function restart() {
+
         if (playerHasWon() || checkAllBoxes()) {
             spaces.fill(null);
 
@@ -150,6 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
         function checkAllBoxes() {
+            boxes = Array.from(document.getElementsByClassName('box'));
             let counter = 0;
             boxes.forEach(box => {
 
@@ -168,4 +171,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         startGame();
-    });
