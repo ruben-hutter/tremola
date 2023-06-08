@@ -30,9 +30,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('gameBoard').style.opacity = 0.5;
 
                 playerText.innerHTML = `${currentPlayer} has won!`;
+                boxes.forEach(box => {
+                    box.style.pointerEvents = 'none';
+                })
                 let winning_blocks = winningCombo;
 
                 winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
+                return;
+            } else if (checkAllBoxes()) {
+                document.getElementById('playerText').style.display = null;
+                document.getElementById('gameBoard').style.opacity = 0.5;
+
+                playerText.innerHTML = `No one one`;
+                boxes.forEach(box => {
+                    box.style.pointerEvents = 'none';
+                })
+
                 return;
             }
 
@@ -116,23 +129,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Should only be able to toggle if game is already ended, and not in midgame.
     function restart() {
-        spaces.fill(null);
+        if (playerHasWon() || checkAllBoxes()) {
+            spaces.fill(null);
 
-        boxes.forEach( box => {
-            box.innerText = '';
-            box.style.backgroundColor='';
-            box.style.pointerEvents = null;
-        })
+            boxes.forEach(box => {
+                box.innerText = '';
+                box.style.backgroundColor = '';
+                box.style.pointerEvents = null;
+            })
 
-        document.getElementById('playerText').style.display = 'none';
-        document.getElementById('gameBoard').style.display = null;
-        document.getElementById('gameBoard').style.opacity = 1;
-        currentPlayer = X_TEXT;
+            document.getElementById('playerText').style.display = 'none';
+            document.getElementById('gameBoard').style.display = null;
+            document.getElementById('gameBoard').style.opacity = 1;
+            currentPlayer = X_TEXT;
+        }
     }
     //TODO: Should load the current gameState of the game.
     function LoadGame() {
 
     }
 
-    startGame();
-});
+        function checkAllBoxes() {
+            let counter = 0;
+            boxes.forEach(box => {
+
+                if (box.innerText !== "") {
+                    counter++;
+                }
+
+                })
+            console.log(counter)
+            if (counter == 9) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+
+        startGame();
+    });
