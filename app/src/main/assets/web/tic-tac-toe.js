@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             new_post_gameState(gameState); // send the gameState as message to the other client
             //TODO: After send is clicked we need to change back to the correct chat automatically.
             load_chat(curr_chat);
-            console.log(tremola.games);
+            persist(); //TODO: not sure if necessary
         }
     });
 
@@ -69,10 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
         user_to_play: user_id_X/O
         player_won: user_id_X/O or 0 if nobody won
         */
-        gameState = new Array(10).fill(0);
+        gameState = new Array(13).fill(0);
         if (!tremola.games.hasOwnProperty("tremola_toe")) {
             tremola.games["tremola_toe"] = {};
         }
+        gameState[9] = myId;
+        gameState[10] = opponentId;
         tremola.games.tremola_toe[opponentId] = gameState;
     }
 
