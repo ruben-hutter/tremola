@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+/*document.addEventListener('DOMContentLoaded', () => {
     // Your code here
     let gameState = new Array(13).fill(0);
     let playerText = document.getElementById('playerText');
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         user_to_play: user_id_X/O
         player_won: user_id_X/O or 0 if nobody won
         //TODO: maybe add a field "Data.now()" for a time-stamp
-        */
+
     }
 
     function boxClicked(e) {
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
             clicked = false;
-        }*/
+        }
     }
 
     const winningCombos = [
@@ -163,3 +163,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startGame();
 });
+
+ */

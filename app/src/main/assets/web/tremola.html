@@ -463,15 +463,15 @@
 
 
         <div id="gameBoard">
-            <div class="box" id="0"></div>
-            <div class="box" id="1"></div>
-            <div class="box" id="2"></div>
-            <div class="box" id="3"></div>
-            <div class="box" id="4"></div>
-            <div class="box" id="5"></div>
-            <div class="box" id="6"></div>
-            <div class="box" id="7"></div>
-            <div class="box" id="8"></div>
+            <div class="box" id="0" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="1 "onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="2"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="3"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="4"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="5"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="6"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="7"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="8"onclick="boxClickedTrem(this.id);"></div>
         </div>
 
         <div id='div:Gamefooter' class=neutral
@@ -480,9 +480,11 @@
             <table width=100% cellpadding="2pt">
                 <tr>
                     <td width=50%>
-                        <button id="restartBtn" class="w100 flat passive buttontext" style="background-image: url('img/restart-svgrepo-com.svg');" >&nbsp;</button>
+                        <button id="restartBtn" class="w100 flat passive buttontext" style="background-image: url('img/restart-svgrepo-com.svg');"
+                                onclick="restartTremola();">&nbsp;</button>
                     <td width=50%>
-                       <button id="send" class="w100 flat passive buttontext" style="background-image: url('img/invite-svgrepo-com.svg');">&nbsp;</button>
+                        <button id="send" class="w100 flat passive buttontext" style="background-image: url('img/invite-svgrepo-com.svg');"
+                                onclick="sendTremola()">&nbsp;</button>
             </table>
         </div>
     </div>
