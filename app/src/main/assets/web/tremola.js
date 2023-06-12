@@ -730,9 +730,6 @@ function new_post_gameState(gameState) {
     c.scrollTop = c.scrollHeight;
     document.getElementById('draft').value = '';
     closeOverlay();
-
-    // save sent gameState to device
-    persist();
 }
 
 // --- eof
