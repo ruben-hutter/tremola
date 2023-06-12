@@ -1,10 +1,7 @@
 
-// Your code here
-var gameState = [];
+let gameState = new Array(13).fill(0);
 let playerText = document.getElementById('playerText');
-
-let boxes;
-
+let boxes = Array.from(document.getElementsByClassName('box'));
 
 //TODO fix the missing property
 //let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
@@ -15,12 +12,12 @@ const X_TEXT = "X";
 let currentPlayer = X_TEXT;
 let previousPlayer = currentPlayer;
 let spaces = Array(9).fill(null);
-function send(){
+
+function send() {
     if (!spaces[id]) {
         spaces[id] = currentPlayer;
-        gameState[10] = 1;
-        gameState[id] = 1;
-        console.log("gameState: " + gameState);
+        gameState[id] = currentPlayer;
+        //console.log("gameState: " + gameState);
         id.innerText = currentPlayer;
         document.getElementById(id).style.pointerEvents = 'none'
         const winningCombo = playerHasWon();
@@ -29,7 +26,7 @@ function send(){
             document.getElementById('playerText').style.display = null;
             document.getElementById('gameBoard').style.opacity = 0.5;
 
-            playerText.innerText = currentPlayer +" has won!";
+            playerText.innerHTML = `${currentPlayer} has won!`;
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
@@ -41,11 +38,10 @@ function send(){
             document.getElementById('playerText').style.display = null;
             document.getElementById('gameBoard').style.opacity = 0.5;
 
-            playerText.innerHTML = `No one won`;
+            playerText.innerHTML = `No one one`;
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
-
             return;
         }
 
@@ -56,6 +52,7 @@ function send(){
     }
 
 }
+
 const startGame = () => {
     boxes.forEach(box => box.addEventListener('click', boxClicked));
     /*generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
@@ -66,16 +63,13 @@ const startGame = () => {
      3 = host won
      4 = opponent won
 */
-    for(let i = 0; i<=9; i++){
-        gameState[i] = 0;
-    }
 }
 
 function boxClicked(e) {
     var e = document.getElementById(e);
     console.log(e)
     if (e.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
-        targetBox.innerText="";
+        targetBox.innerText = "";
 
     }
     id = e.id;
@@ -105,14 +99,14 @@ function boxClicked(e) {
 }
 
 const winningCombos = [
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,5,8],
-    [0,4,8],
-    [2,4,6]
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
 ];
 
 function playerHasWon() {
@@ -120,7 +114,7 @@ function playerHasWon() {
         let [a, b, c] = condition;
 
         if (spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) {
-            return [a,b,c];
+            return [a, b, c];
         }
     }
     return false;
@@ -145,10 +139,6 @@ function restart() {
         document.getElementById('gameBoard').style.opacity = 1;
         currentPlayer = X_TEXT;
     }
-}
-//TODO: Should load the current gameState of the game.
-function LoadGame() {
-
 }
 
 function checkAllBoxes() {

@@ -125,7 +125,7 @@ function setScenario(new_scenario) {
             document.getElementById('conversationTitle').style.display = 'none';
             document.getElementById('tremolaToe').style.display = 'none';
             document.getElementById('tremolaToeTitle').style.display = 'none';
-        } if (main_scenarios.indexOf(new_scenario) >= 0 && new_scenario !== "game") {
+        } if (main_scenarios.indexOf(new_scenario) >= 0 && new_scenario !== "tremola_toe") {
             prev_scenario = new_scenario;
         }
         curr_scenario = new_scenario;

@@ -1,4 +1,5 @@
-/*document.addEventListener('DOMContentLoaded', () => {
+/*
+document.addEventListener('DOMContentLoaded', () => {
     // Your code here
     let gameState = new Array(13).fill(0);
     let playerText = document.getElementById('playerText');
@@ -55,19 +56,8 @@
 
     });
     const startGame = () => {
-        boxes.forEach(box => box.addEventListener('click', boxClicked));
-        /*
-        game_state, user_id_X, user_id_O, user_to_play, player_won
-
-        game_state: "000010000"
-        user_id_X: "@fNoT8IEpLD9fO9S76ICLJA3w+vr2xX8ZX1yBmb0PENs=.ed25519"
-        user_id_O: same as for X
-        user_to_play: user_id_X/O
-        player_won: user_id_X/O or 0 if nobody won
-        //TODO: maybe add a field "Data.now()" for a time-stamp
 
     }
-
     function boxClicked(e) {
         //console.log(e.target.id)
         if (e.target.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
@@ -100,68 +90,72 @@
         }
     }
 
-    const winningCombos = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
+*/
+/*
+        const winningCombos = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
 
-    function playerHasWon() {
-        for (const condition of winningCombos) {
-            let [a, b, c] = condition;
+        function playerHasWon() {
+            for (const condition of winningCombos) {
+                let [a, b, c] = condition;
 
-            if (spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) {
-                return [a, b, c];
+                if (spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) {
+                    return [a, b, c];
+                }
             }
-        }
-        return false;
-    }
-
-    restartBtn.addEventListener('click', restart);
-
-    //Should only be able to toggle if game is already ended, and not in midgame.
-    function restart() {
-        if (playerHasWon() || checkAllBoxes()) {
-            spaces.fill(null);
-
-            boxes.forEach(box => {
-                box.innerText = '';
-                box.style.backgroundColor = '';
-                box.style.pointerEvents = null;
-            })
-
-            document.getElementById('playerText').style.display = 'none';
-            document.getElementById('gameBoard').style.display = null;
-            document.getElementById('gameBoard').style.opacity = 1;
-            currentPlayer = X_TEXT;
-        }
-    }
-
-
-    function checkAllBoxes() {
-        let counter = 0;
-        boxes.forEach(box => {
-
-            if (box.innerText !== "") {
-                counter++;
-            }
-
-        })
-        //console.log(counter)
-        if (counter == 9) {
-            return true;
-
-        } else {
             return false;
         }
+
+        restartBtn.addEventListener('click', restart);
+
+        //Should only be able to toggle if game is already ended, and not in midgame.
+        function restart() {
+            if (playerHasWon() || checkAllBoxes()) {
+                spaces.fill(null);
+
+                boxes.forEach(box => {
+                    box.innerText = '';
+                    box.style.backgroundColor = '';
+                    box.style.pointerEvents = null;
+                })
+
+                document.getElementById('playerText').style.display = 'none';
+                document.getElementById('gameBoard').style.display = null;
+                document.getElementById('gameBoard').style.opacity = 1;
+                currentPlayer = X_TEXT;
+            }
+        }
+
+
+        function checkAllBoxes() {
+            let counter = 0;
+            boxes.forEach(box => {
+
+                if (box.innerText !== "") {
+                    counter++;
+                }
+
+            })
+            //console.log(counter)
+            if (counter == 9) {
+                return true;
+
+            } else {
+                return false;
+            }
+        }
+
+        startGame();
     }
 
-    startGame();
-});
-
- */
+)
+    ;
+*/
