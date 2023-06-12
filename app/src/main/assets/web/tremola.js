@@ -711,7 +711,17 @@ function b2f_initialize(id) {
 // --- Games ---
 const games = ["tremola_toe", "game_2", "game_3"];
 
-//TODO: check if game in list -> check if game already started with this opponent
+function is_game_running(gameName) {
+    //TODO: check if game in list -> check if game already started with this opponent
+    if (!(gameName in tremola.games)) {
+        return false;
+    }
+    const opponent_id = tremola.chats[curr_chat].members[1];
+    if (!(opponent_id in tremola.games[gameName])) {
+        return false;
+    }
+    return true;
+}
 
 function new_post_gameState(gameState) {
     const opponent_id = tremola.chats[curr_chat].members[1];
@@ -728,8 +738,10 @@ function new_post_gameState(gameState) {
     backend("priv:gameState " + btoa(gameState) + " " + recps);
     const c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
-    document.getElementById('draft').value = '';
     closeOverlay();
+
+
+    console.log(is_game_running("tremola_toe"));
 }
 
 // --- eof

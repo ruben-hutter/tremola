@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Your code here
-    var gameState = [];
+    let gameState = new Array(13).fill(0);
     let playerText = document.getElementById('playerText');
     let restartBtn = document.getElementById('restartBtn');
     let boxes = Array.from(document.getElementsByClassName('box'));
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('send').addEventListener("click", function () {
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
+            gameState[id] = currentPlayer;
             console.log("gameState: " + gameState);
             id.innerText = currentPlayer;
             document.getElementById(id).style.pointerEvents = 'none'
@@ -43,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 boxes.forEach(box => {
                     box.style.pointerEvents = 'none';
                 })
-
                 return;
             }
 
@@ -65,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         user_to_play: user_id_X/O
         player_won: user_id_X/O or 0 if nobody won
         */
-        gameState = new Array(13).fill(0);
     }
 
     function boxClicked(e) {
