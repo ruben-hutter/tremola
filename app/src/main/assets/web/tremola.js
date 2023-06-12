@@ -763,5 +763,15 @@ function new_post_gameState(gameState) {
     c.scrollTop = c.scrollHeight;
     closeOverlay();
 }
+function boxClickedTrem(e){
+    console.log(e);
+    boxClicked(e);
+}
+function sendTremola() {
+    send();
+}
+function restartTremola() {
+    restart();
+}
 
 // --- eof
