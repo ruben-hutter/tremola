@@ -346,8 +346,6 @@ function look_up(shortname) {
 function add_game() {
     setScenario('game');
     closeOverlay();
-    launch_snackbar("test");
-    backend('game:ui hello!');
 }
 
 function menu_games() {
@@ -357,14 +355,4 @@ function menu_games() {
 
 function menu_help() {
     closeOverlay();
-}
-
-function receive_from_backend(s) {
-    console.log(s);
-}
-
-function increment() {
-    let gameCounter = parseInt(document.getElementById("game:counter").innerText);
-    gameCounter++;
-    document.getElementById("game:counter").innerText = gameCounter.toString();
 }

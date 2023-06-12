@@ -199,19 +199,6 @@ function new_post(s) {
     closeOverlay();
 }
 
-function new_post_gameState(gameState) {
-    if (gameState.length === 0) {
-        return;
-    }
-    //var draft = unicodeStringToTypedArray(document.getElementById('draft').value); // escapeHTML(
-    var recps = tremola.chats[curr_chat].members.join(' ')
-    backend("priv:gameState " + btoa(gameState) + " " + recps);
-    var c = document.getElementById('core');
-    c.scrollTop = c.scrollHeight;
-    document.getElementById('draft').value = '';
-    closeOverlay();
-}
-
 function load_post_item(p) { // { 'key', 'from', 'when', 'body', 'to' (if group or public)>
     var pl = document.getElementById('lst:posts');
     var is_other = p["from"] !== myId;
@@ -582,6 +569,7 @@ function resetTremola() { // wipes browser-side content
         "chats": {},
         "contacts": {},
         "profile": {},
+        "games": {},
         "id": myId,
         "settings": get_default_settings()
     }
@@ -718,6 +706,33 @@ function b2f_initialize(id) {
 
     closeOverlay();
     setScenario('chats');
+}
+
+// --- Games ---
+const games = ["tremola_toe", "game_2", "game_3"];
+
+//TODO: check if game in list -> check if game already started with this opponent
+
+function new_post_gameState(gameState) {
+    const opponent_id = tremola.chats[curr_chat].members[1];
+    if (gameState[9] == 0) {
+        gameState[9] = myId;
+        gameState[10] = opponent_id;
+    }
+    if (!Object.hasOwn(tremola.games, "tremola_toe")) {
+        tremola.games["tremola_toe"] = {};
+    }
+    tremola.games.tremola_toe[opponent_id] = gameState;
+
+    const recps = tremola.chats[curr_chat].members[1];
+    backend("priv:gameState " + btoa(gameState) + " " + recps);
+    const c = document.getElementById('core');
+    c.scrollTop = c.scrollHeight;
+    document.getElementById('draft').value = '';
+    closeOverlay();
+
+    // save sent gameState to device
+    persist();
 }
 
 // --- eof

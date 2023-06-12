@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('send').addEventListener("click", function () {
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
-            gameState[10] = 1;
-            gameState[id] = 1;
             console.log("gameState: " + gameState);
             id.innerText = currentPlayer;
             document.getElementById(id).style.pointerEvents = 'none'
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
-            new_post_gameState(gameState); //Send the gameState as message to the other client
+            new_post_gameState(gameState);
             //TODO: After send is clicked we need to change back to the correct chat automatically.
             load_chat(curr_chat);
         }
@@ -58,28 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const startGame = () => {
         boxes.forEach(box => box.addEventListener('click', boxClicked));
-        /*generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
-         the boxes, last number indicates the current state.
-         0 = No game running
-         1 = its hosts turn
-         2 = its the opponents turn
-         3 = host won
-         4 = opponent won
-*/
-        for(let i = 0; i<=9; i++){
-            gameState[i] = 0;
-        }
+        /*
+        game_state, user_id_X, user_id_O, user_to_play, player_won
+
+        game_state: "000010000"
+        user_id_X: "@fNoT8IEpLD9fO9S76ICLJA3w+vr2xX8ZX1yBmb0PENs=.ed25519"
+        user_id_O: same as for X
+        user_to_play: user_id_X/O
+        player_won: user_id_X/O or 0 if nobody won
+        */
+        gameState = new Array(13).fill(0);
     }
 
     function boxClicked(e) {
-        console.log(e.target.id)
+        //console.log(e.target.id)
         if (e.target.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
             targetBox.innerText="";
 
         }
         id = e.target.id;
         //gameState[id - 1] = 1; // should save the clicked box into the gameState.
-        console.log(gameState);
+        //console.log(gameState);
         targetBox = e.target;
         e.target.innerText = currentPlayer;
         previousPlayer = currentPlayer;
@@ -158,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 })
-            console.log(counter)
+            //console.log(counter)
             if (counter == 9) {
                 return true;
 
