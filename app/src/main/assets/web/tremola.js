@@ -712,15 +712,37 @@ function b2f_initialize(id) {
 const games = ["tremola_toe", "game_2", "game_3"];
 
 function is_game_running(gameName) {
-    //TODO: check if game in list -> check if game already started with this opponent
     if (!(gameName in tremola.games)) {
         return false;
     }
     const opponent_id = tremola.chats[curr_chat].members[1];
-    if (!(opponent_id in tremola.games[gameName])) {
-        return false;
+    return opponent_id in tremola.games[gameName];
+}
+
+function start_game(gameName) {
+    switch (gameName) {
+        case games[0]:
+            //TODO: start tremola_toe game
+            break;
+        case games[1]:
+            break;
+        case games[2]:
+            break;
     }
-    return true;
+}
+
+function load_game(gameName) {
+    const opponent_id = tremola.chats[curr_chat].members[1]
+    const open_games = tremola.games[gameName];
+    switch (gameName) {
+        case games[0]:
+            //TODO: load tremola_toe gameState
+            break;
+        case games[1]:
+            break;
+        case games[2]:
+            break;
+    }
 }
 
 function new_post_gameState(gameState) {
@@ -739,9 +761,6 @@ function new_post_gameState(gameState) {
     const c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
     closeOverlay();
-
-
-    console.log(is_game_running("tremola_toe"));
 }
 
 // --- eof

@@ -17,7 +17,7 @@ let prev_scenario = 'chats';
 let curr_scenario = 'chats';
 
 // Array of the scenarios that have a button in the footer
-const main_scenarios = ['chats', 'contacts', 'connex','game'];
+const main_scenarios = ['chats', 'contacts', 'connex', 'tremola_toe'];
 
 const buttonList = ['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex'];
 
@@ -33,7 +33,7 @@ let scenarioDisplay = {
     'connex': ['div:qr', 'core', 'the:connex', 'div:footer', 'plus'],
     'members': ['div:back', 'core', 'lst:members', 'div:confirm-members'],
     'settings': ['div:back', 'div:settings'],
-    'game': ['game:ui'],
+    'tremola_toe': ['game:ui'],
     'gamesList': ['div:back', 'game:List'],
 }
 
@@ -343,9 +343,14 @@ function look_up(shortname) {
 }
 
 //TODO: Need to send with which contact we are playing the game to change back properly.
-function add_game() {
-    setScenario('game');
+function open_game(gameName) {
+    setScenario(gameName);
     closeOverlay();
+    if (!is_game_running(gameName)) {
+        start_game(gameName);
+        return;
+    }
+    load_game(gameName);
 }
 
 function menu_games() {

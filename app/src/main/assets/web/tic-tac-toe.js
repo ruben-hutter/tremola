@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!spaces[id]) {
             spaces[id] = currentPlayer;
             gameState[id] = currentPlayer;
-            console.log("gameState: " + gameState);
+            //console.log("gameState: " + gameState);
             id.innerText = currentPlayer;
             document.getElementById(id).style.pointerEvents = 'none'
             const winningCombo = playerHasWon();
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function boxClicked(e) {
         //console.log(e.target.id)
         if (e.target.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
-            targetBox.innerText="";
+            targetBox.innerText = "";
 
         }
         id = e.target.id;
@@ -100,14 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const winningCombos = [
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-        [0,4,8],
-        [2,4,6]
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
     ];
 
     function playerHasWon() {
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let [a, b, c] = condition;
 
             if (spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) {
-                return [a,b,c];
+                return [a, b, c];
             }
         }
         return false;
@@ -140,28 +140,25 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPlayer = X_TEXT;
         }
     }
-    //TODO: Should load the current gameState of the game.
-    function LoadGame() {
 
+
+    function checkAllBoxes() {
+        let counter = 0;
+        boxes.forEach(box => {
+
+            if (box.innerText !== "") {
+                counter++;
+            }
+
+        })
+        //console.log(counter)
+        if (counter == 9) {
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
-        function checkAllBoxes() {
-            let counter = 0;
-            boxes.forEach(box => {
-
-                if (box.innerText !== "") {
-                    counter++;
-                }
-
-                })
-            //console.log(counter)
-            if (counter == 9) {
-                return true;
-
-            } else {
-                return false;
-            }
-        }
-
-        startGame();
-    });
+    startGame();
+});
