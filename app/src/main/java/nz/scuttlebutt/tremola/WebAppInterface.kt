@@ -139,7 +139,7 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
                 //TODO: 2 cases, one for sending and one for receiving
                 // sending: almost what we already have
                 // receiving: update actual gameState
-                // eval("receive_from_backend('Reply to ${args[1]}: Hi!')")
+                // eval("receive_from_backend('...')")
                 return
             }
             "priv:hash" -> { // Compute the shortname from the public key

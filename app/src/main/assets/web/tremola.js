@@ -733,7 +733,7 @@ function start_game(gameName) {
 }
 
 function load_game(gameName) {
-    const opponent_id = tremola.chats[curr_chat].members[1]
+    const opponent_id = tremola.chats[curr_chat].members[1];
     const open_games = tremola.games[gameName];
     switch (gameName) {
         case games[0]:
