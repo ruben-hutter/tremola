@@ -715,6 +715,7 @@ function is_game_running(gameName) {
     if (!(gameName in tremola.games)) {
         return false;
     }
+    //TODO: check if opponent at index 0 or 1
     const opponent_id = tremola.chats[curr_chat].members[1];
     return opponent_id in tremola.games[gameName];
 }
