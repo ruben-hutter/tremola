@@ -1,4 +1,3 @@
-
 let gameState = new Array(13).fill(0);
 let playerText = document.getElementById('playerText');
 let boxes = Array.from(document.getElementsByClassName('box'));
@@ -53,49 +52,19 @@ function send() {
 
 }
 
-const startGame = () => {
-    boxes.forEach(box => box.addEventListener('click', boxClicked));
-    /*generates the gameState and sets all values to '0' -> '0000000000' first 9 numbers represent
-     the boxes, last number indicates the current state.
-     0 = No game running
-     1 = its hosts turn
-     2 = its the opponents turn
-     3 = host won
-     4 = opponent won
-*/
-}
-
 function boxClicked(e) {
     var e = document.getElementById(e);
-    console.log(e)
+    //console.log(e)
     if (e.innerText == "" && targetBox != null && currentPlayer == previousPlayer) {
         targetBox.innerText = "";
 
     }
     id = e.id;
     //gameState[id - 1] = 1; // should save the clicked box into the gameState.
-    console.log(gameState);
+    //console.log(gameState);
     targetBox = e;
     e.innerText = currentPlayer;
     previousPlayer = currentPlayer;
-    /*if (!spaces[id] && clicked) {
-        spaces[id] = currentPlayer;
-
-        const winningCombo = playerHasWon();
-        if (winningCombo !== false) {
-            document.getElementById('playerText').style.display = null;
-            document.getElementById('gameBoard').style.opacity = 0.5;
-
-            playerText.innerHTML = `${currentPlayer} has won!`;
-            let winning_blocks = winningCombo;
-
-            winning_blocks.map(box => boxes[box].style.backgroundColor = winnerIndicator);
-            return;
-            }
-
-        currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT;
-        clicked = false;
-    }*/
 }
 
 const winningCombos = [
@@ -151,7 +120,7 @@ function checkAllBoxes() {
         }
 
     })
-    console.log(counter)
+    //console.log(counter)
     if (counter == 9) {
         return true;
 
@@ -159,5 +128,3 @@ function checkAllBoxes() {
         return false;
     }
 }
-
-startGame();
