@@ -126,7 +126,7 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
                 return
             }
             "priv:gameState" -> { // Post a private chat for the game
-                // atob(text) recipient1 recipient2 ...
+                // atob(text) recipient
                 val rawStr = tremolaState.msgTypes.mkPost(
                     Base64.decode(args[1], Base64.NO_WRAP).decodeToString(),
                     args.slice(2..args.lastIndex)
@@ -136,6 +136,10 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
                     rawStr.encodeToByteArray()
                 )
                 evnt?.let { rx_event(it) } // persist it, propagate horizontally and also up
+                //TODO: 2 cases, one for sending and one for receiving
+                // sending: almost what we already have
+                // receiving: update actual gameState
+                // eval("receive_from_backend('Reply to ${args[1]}: Hi!')")
                 return
             }
             "priv:hash" -> { // Compute the shortname from the public key
@@ -182,10 +186,6 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
                 } catch (e: Exception) {
                     Log.e("BROADCAST", e.stackTraceToString())
                 }
-            }
-            "game:ui" -> {
-                Log.d("onFrontendRequest", "game request received")
-                eval("receive_from_backend('Reply to ${args[1]}: Hi!')")
             }
             else -> {
                 Log.d("onFrontendRequest", "unknown")

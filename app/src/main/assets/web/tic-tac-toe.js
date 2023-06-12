@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         user_id_O: same as for X
         user_to_play: user_id_X/O
         player_won: user_id_X/O or 0 if nobody won
+        //TODO: maybe add a field "Data.now()" for a time-stamp
         */
     }
 
