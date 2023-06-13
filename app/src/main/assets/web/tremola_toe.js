@@ -27,7 +27,7 @@ const winningCombos = [
     [2, 4, 6]
 ];
 
-function send() {
+function sendMove() {
     if (!spaces[boxID]) {
         spaces[boxID] = currentPlayer;
         gameState[boxID] = currentPlayer;
@@ -127,4 +127,8 @@ function checkAllBoxes() {
     })
     //console.log(counter)
     return counter === 9;
+}
+
+function test(id) {
+    console.log("test: " + id);
 }
