@@ -749,7 +749,6 @@ function start_game(gameName) {
 function load_game(gameName) {
     const opponent_id = get_opponent_id();
     const open_games = tremola.games[gameName];
-    console.log("load_game: " + JSON.stringify(open_games));
     switch (gameName) {
         case GAMES[0]:
             loadTremolaToe(open_games[opponent_id]);
@@ -764,7 +763,6 @@ function load_game(gameName) {
 //TODO: make general (not only for tremola_toe)
 function new_post_gameState(gameState) {
     const opponent_id = get_opponent_id();
-    console.log("new_game_post: " + JSON.stringify(tremola.games));
     if (!("tremola_toe" in tremola.games)) {
         tremola.games["tremola_toe"] = {};
     }

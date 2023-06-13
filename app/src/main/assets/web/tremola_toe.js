@@ -112,8 +112,8 @@ function startTremolaToe(myId, opponentId) {
     }
 }
 
-function loadTremolaToe(gameState) {
-    this.gameState = gameState;
+function loadTremolaToe(newGameState) {
+    gameState = newGameState;
     getCurrentPlayer();
 }
 
