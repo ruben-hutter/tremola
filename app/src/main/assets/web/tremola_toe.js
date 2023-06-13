@@ -1,9 +1,13 @@
+// tremola_toe.js
+
+"use strict";
+
 let playerText = document.getElementById('playerText');
 let boxes = Array.from(document.getElementsByClassName('box'));
 
 //TODO fix the missing property
 //let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
-let gameState
+let gameState;
 let boxID;
 let targetBox;
 const O_TEXT = "O";
@@ -46,7 +50,7 @@ function send() {
             document.getElementById('playerText').style.display = null;
             document.getElementById('gameBoard').style.opacity = 0.5;
 
-            playerText.innerHTML = `No one one`;
+            playerText.innerHTML = "Draw";
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
@@ -85,10 +89,10 @@ function playerHasWon() {
     return false;
 }
 
-//restartBtn.addEventListener('click', restart);
-
 function startTremolaToe() {
     gameState = new Array(13).fill(0);
+    currentPlayer = X_TEXT;
+    previousPlayer = currentPlayer;
 
     if (playerHasWon() || checkAllBoxes()) {
         spaces.fill(null);

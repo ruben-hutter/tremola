@@ -711,19 +711,27 @@ function b2f_initialize(id) {
 // --- Games ---
 const games = ["tremola_toe", "game_2", "game_3"];
 
+function get_opponent_id() {
+    const opponent_id = tremola.chats[curr_chat].members[0];
+    if (opponent_id !== myId) {
+        return opponent_id;
+    }
+    return tremola.chats[curr_chat].members[1];
+}
+
 function is_game_running(gameName) {
     if (!(gameName in tremola.games)) {
         return false;
     }
-    //TODO: check if opponent at index 0 or 1
-    const opponent_id = tremola.chats[curr_chat].members[1];
+    const opponent_id = get_opponent_id();
     return opponent_id in tremola.games[gameName];
 }
 
 function start_game(gameName) {
+    const opponent_id = get_opponent_id();
     switch (gameName) {
         case games[0]:
-            startTremolaToe();
+            startTremolaToe(myId, opponent_id);
             break;
         case games[1]:
             break;
@@ -733,8 +741,7 @@ function start_game(gameName) {
 }
 
 function load_game(gameName) {
-    //TODO: check if opponent at index 0 or 1
-    const opponent_id = tremola.chats[curr_chat].members[1];
+    const opponent_id = get_opponent_id();
     const open_games = tremola.games[gameName];
     console.log("load_game: " + JSON.stringify(open_games));
     switch (gameName) {
@@ -749,8 +756,8 @@ function load_game(gameName) {
 }
 
 function new_post_gameState(gameState) {
-    const opponent_id = tremola.chats[curr_chat].members[1];
-    if (gameState[9] == 0) {
+    const opponent_id = get_opponent_id();
+    if (gameState[9] === 0) {
         gameState[9] = myId;
         gameState[10] = opponent_id;
     }
