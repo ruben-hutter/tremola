@@ -723,7 +723,7 @@ function is_game_running(gameName) {
 function start_game(gameName) {
     switch (gameName) {
         case games[0]:
-            //TODO: start tremola_toe game
+            startTremolaToe();
             break;
         case games[1]:
             break;
@@ -733,11 +733,13 @@ function start_game(gameName) {
 }
 
 function load_game(gameName) {
+    //TODO: check if opponent at index 0 or 1
     const opponent_id = tremola.chats[curr_chat].members[1];
     const open_games = tremola.games[gameName];
+    console.log("load_game: " + JSON.stringify(open_games));
     switch (gameName) {
         case games[0]:
-            //TODO: load tremola_toe gameState
+            loadTremolaToe(open_games[opponent_id]);
             break;
         case games[1]:
             break;
@@ -763,15 +765,11 @@ function new_post_gameState(gameState) {
     c.scrollTop = c.scrollHeight;
     closeOverlay();
 }
-function boxClickedTrem(e){
-    console.log(e);
-    boxClicked(e);
+function boxClickedTrem(id){
+    boxClicked(id);
 }
 function sendTremola() {
     send();
-}
-function restartTremola() {
-    restart();
 }
 
 // --- eof

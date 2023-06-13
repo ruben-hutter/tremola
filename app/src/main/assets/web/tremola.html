@@ -41,13 +41,15 @@
             </div>
 
             <div id='tremolaToe'
-                 style="display: none; padding-top: 2pt; width: 100%;font-family: Helvetica;font-weight: 900;"><font size=+2
+                 style="display: none; padding-top: 2pt; width: 100%;font-family: Helvetica;font-weight: 900;"><font
+                    size=+2
                     color=#e85132>T r e m o l a G a m e s<!-- &#x26F0; -->
             </font></div>
 
             <div id='tremolaToeTitle' align=center
-                 style="display: none; padding-top: 2pt; width: 100%;font-family: Helvetica;font-weight: 900;"><font size=+2
-                                                                                                      color=#e85132>T r e m
+                 style="display: none; padding-top: 2pt; width: 100%;font-family: Helvetica;font-weight: 900;"><font
+                    size=+2
+                    color=#e85132>T r e m
                 o l a T o e<!-- &#x26F0; --></font></div>
             <div>
                 <button id='btn:menu' class="flat neutral" onclick="btnBridge(this);"
@@ -307,7 +309,7 @@
                     <button id='btn:connex' class="w100 flat passive buttontext" onclick="btnBridge(this);"
                             style="background-image: url('img/signal.svg');">&nbsp;
                         <!-- font size=+3>&#x1F5E3;</font><br><font size=small>Connex</font --></button>
-                </table>
+        </table>
 
     </div>
 
@@ -444,7 +446,7 @@
     <table id='game:List' style="display: none;height: calc(100% - 60pt); width: calc(100% - 60pt); margin: 30pt;">
         <td style="vertical-align: top">
             <button class="flat passive" onclick="open_game('tremola_toe');"
-                style="font-size: medium; height: 50px; width: calc(100% - 16px); margin: 8px; vertical-align: top">
+                    style="font-size: medium; height: 50px; width: calc(100% - 16px); margin: 8px; vertical-align: top">
                 Tremola-Toe
             </button>
             <button class="flat passive" onclick="open_game('game_2');"
@@ -464,14 +466,14 @@
 
         <div id="gameBoard">
             <div class="box" id="0" onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="1 "onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="2"onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="3"onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="4"onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="5"onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="6"onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="7"onclick="boxClickedTrem(this.id);"></div>
-            <div class="box" id="8"onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="1" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="2" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="3" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="4" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="5" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="6" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="7" onclick="boxClickedTrem(this.id);"></div>
+            <div class="box" id="8" onclick="boxClickedTrem(this.id);"></div>
         </div>
 
         <div id='div:Gamefooter' class=neutral
@@ -480,11 +482,15 @@
             <table width=100% cellpadding="2pt">
                 <tr>
                     <td width=50%>
-                        <button id="restartBtn" class="w100 flat passive buttontext" style="background-image: url('img/restart-svgrepo-com.svg');"
-                                onclick="restartTremola();">&nbsp;</button>
+                        <button id="restartBtn" class="w100 flat passive buttontext"
+                                style="background-image: url('img/restart-svgrepo-com.svg');"
+                                onclick="onBackPressed();">&nbsp;
+                        </button>
                     <td width=50%>
-                        <button id="send" class="w100 flat passive buttontext" style="background-image: url('img/invite-svgrepo-com.svg');"
-                                onclick="sendTremola()">&nbsp;</button>
+                        <button id="send" class="w100 flat passive buttontext"
+                                style="background-image: url('img/invite-svgrepo-com.svg');"
+                                onclick="sendTremola()">&nbsp;
+                        </button>
             </table>
         </div>
     </div>
