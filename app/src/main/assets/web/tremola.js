@@ -709,7 +709,7 @@ function b2f_initialize(id) {
 }
 
 // --- Games ---
-const games = ["tremola_toe", "game_2", "game_3"];
+const GAMES = ["tremola_toe", "game_2", "game_3"];
 
 function get_opponent_id() {
     const opponent_id = tremola.chats[curr_chat].members[0];
@@ -717,6 +717,10 @@ function get_opponent_id() {
         return opponent_id;
     }
     return tremola.chats[curr_chat].members[1];
+}
+
+function is_group_chat() {
+    return tremola.chats[curr_chat].members.length > 2;
 }
 
 function is_game_running(gameName) {
@@ -730,12 +734,14 @@ function is_game_running(gameName) {
 function start_game(gameName) {
     const opponent_id = get_opponent_id();
     switch (gameName) {
-        case games[0]:
-            startTremolaToe(myId, opponent_id);
+        case GAMES[0]:
+            if (!is_group_chat()) {
+                startTremolaToe(myId, opponent_id);
+            }
             break;
-        case games[1]:
+        case GAMES[1]:
             break;
-        case games[2]:
+        case GAMES[2]:
             break;
     }
 }
@@ -745,29 +751,26 @@ function load_game(gameName) {
     const open_games = tremola.games[gameName];
     console.log("load_game: " + JSON.stringify(open_games));
     switch (gameName) {
-        case games[0]:
+        case GAMES[0]:
             loadTremolaToe(open_games[opponent_id]);
             break;
-        case games[1]:
+        case GAMES[1]:
             break;
-        case games[2]:
+        case GAMES[2]:
             break;
     }
 }
 
+//TODO: make general (not only for tremola_toe)
 function new_post_gameState(gameState) {
     const opponent_id = get_opponent_id();
-    if (gameState[9] === 0) {
-        gameState[9] = myId;
-        gameState[10] = opponent_id;
-    }
-    if (!Object.hasOwn(tremola.games, "tremola_toe")) {
+    console.log("new_game_post: " + JSON.stringify(tremola.games));
+    if (!("tremola_toe" in tremola.games)) {
         tremola.games["tremola_toe"] = {};
     }
     tremola.games.tremola_toe[opponent_id] = gameState;
 
-    const recps = tremola.chats[curr_chat].members[1];
-    backend("priv:gameState " + btoa(gameState) + " " + recps);
+    backend("priv:gameState " + btoa(gameState) + " " + opponent_id);
     const c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
     closeOverlay();

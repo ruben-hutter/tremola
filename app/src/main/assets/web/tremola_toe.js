@@ -5,18 +5,9 @@
 let playerText = document.getElementById('playerText');
 let boxes = Array.from(document.getElementsByClassName('box'));
 
-//TODO fix the missing property
-//let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks');
-let gameState;
-let boxID;
-let targetBox;
 const O_TEXT = "O";
 const X_TEXT = "X";
-let currentPlayer = X_TEXT;
-let previousPlayer = currentPlayer;
-let spaces = Array(9).fill(null);
-
-const winningCombos = [
+const WINNING_COMBOS = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -27,13 +18,18 @@ const winningCombos = [
     [2, 4, 6]
 ];
 
+let gameState; // PROTOCOL: |0-8: boxes, 9: X_ID, 10: O_ID, 11: counter (X_ID has even and O_ID odd) & set to winner ID if finished|
+let boxId;
+let targetBox;
+let currentPlayer;
+let previousPlayer;
+
 function sendMove() {
-    if (!spaces[boxID]) {
-        spaces[boxID] = currentPlayer;
-        gameState[boxID] = currentPlayer;
+    if (!gameState[boxId]) {
+        gameState[boxId] = currentPlayer;
         //console.log("gameState: " + gameState);
-        boxID.innerText = currentPlayer;
-        document.getElementById(boxID).style.pointerEvents = 'none'
+        targetBox.innerText = currentPlayer;
+        document.getElementById(boxId).style.pointerEvents = 'none'
         const winningCombo = playerHasWon();
         if (winningCombo !== false) {
             //TODO: Case distinction for winning gameState.
@@ -44,13 +40,12 @@ function sendMove() {
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
-            //winningCombo.map(box => boxes[box].style.backgroundColor = winnerIndicator);
             return;
         } else if (checkAllBoxes()) {
             document.getElementById('playerText').style.display = null;
             document.getElementById('gameBoard').style.opacity = 0.5;
 
-            playerText.innerHTML = "Draw";
+            playerText.innerHTML = 'Draw';
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
@@ -66,36 +61,43 @@ function sendMove() {
 
 function boxClicked(id) {
     let box = document.getElementById(id);
-    //console.log(e)
     if (box.innerText === "" && targetBox != null && currentPlayer === previousPlayer) {
         targetBox.innerText = "";
     }
-    boxID = id;
-    //gameState[id - 1] = 1; // should save the clicked box into the gameState.
-    //console.log(gameState);
+    boxId = id;
     targetBox = box;
     box.innerText = currentPlayer;
     previousPlayer = currentPlayer;
 }
 
 function playerHasWon() {
-    for (const condition of winningCombos) {
+    for (const condition of WINNING_COMBOS) {
         let [a, b, c] = condition;
 
-        if (spaces[a] && (spaces[a] === spaces[b] && spaces[a] === spaces[c])) {
+        if (gameState[a] && (gameState[a] === gameState[b] && gameState[a] === gameState[c])) {
             return [a, b, c];
         }
     }
     return false;
 }
 
-function startTremolaToe() {
-    gameState = new Array(13).fill(0);
+function getCurrentPlayer() {
+    if (typeof gameState[11] === "number" && gameState[11] % 2 === 0) {
+        currentPlayer = X_TEXT;
+        return;
+    }
+    currentPlayer = O_TEXT;
+}
+
+function startTremolaToe(myId, opponentId) {
+    gameState = new Array(12).fill(0);
+    gameState[9] = myId;
+    gameState[10] = opponentId;
+
     currentPlayer = X_TEXT;
-    previousPlayer = currentPlayer;
+    //previousPlayer = currentPlayer;
 
     if (playerHasWon() || checkAllBoxes()) {
-        spaces.fill(null);
 
         boxes.forEach(box => {
             box.innerText = '';
@@ -112,7 +114,7 @@ function startTremolaToe() {
 
 function loadTremolaToe(gameState) {
     this.gameState = gameState;
-    console.log("load: " + typeof gameState);
+    getCurrentPlayer();
 }
 
 function checkAllBoxes() {
@@ -125,10 +127,5 @@ function checkAllBoxes() {
         }
 
     })
-    //console.log(counter)
     return counter === 9;
-}
-
-function test(id) {
-    console.log("test: " + id);
 }
