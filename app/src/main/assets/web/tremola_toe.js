@@ -2,11 +2,8 @@
 
 "use strict";
 
-let playerText = document.getElementById('playerText');
-let boxes = Array.from(document.getElementsByClassName('box'));
-
-const O_TEXT = "O";
 const X_TEXT = "X";
+const O_TEXT = "O";
 const WINNING_COMBOS = [
     [0, 1, 2],
     [3, 4, 5],
@@ -18,18 +15,19 @@ const WINNING_COMBOS = [
     [2, 4, 6]
 ];
 
-let gameState; // PROTOCOL: |0-8: boxes, 9: X_ID, 10: O_ID, 11: counter (X_ID has even and O_ID odd) & set to winner ID if finished|
+let playerText;
+let boxes;
+let gameState; //PROTOCOL: |0-8: boxes, 9: X_ID, 10: O_ID, 11: counter (X_ID has even and O_ID odd) & set to winner ID if finished|
 let boxId;
-let targetBox;
+let previousBox;
 let currentPlayer;
-let previousPlayer;
 
 function sendMove() {
     if (!gameState[boxId]) {
         gameState[boxId] = currentPlayer;
         //console.log("gameState: " + gameState);
-        targetBox.innerText = currentPlayer;
-        document.getElementById(boxId).style.pointerEvents = 'none'
+        document.getElementById(boxId).innerText = currentPlayer;
+        previousBox.style.pointerEvents = 'none';
         const winningCombo = playerHasWon();
         if (winningCombo !== false) {
             //TODO: Case distinction for winning gameState.
@@ -41,7 +39,7 @@ function sendMove() {
                 box.style.pointerEvents = 'none';
             })
             return;
-        } else if (checkAllBoxes()) {
+        } /*else if (// draw state) {
             document.getElementById('playerText').style.display = null;
             document.getElementById('gameBoard').style.opacity = 0.5;
 
@@ -51,30 +49,30 @@ function sendMove() {
             })
             return;
         }
+        */
 
         currentPlayer = currentPlayer === X_TEXT ? O_TEXT : X_TEXT;
-        new_post_gameState(gameState); //Send the gameState as message to the other client
-        //TODO: After send is clicked we need to change back to the correct chat automatically.
+        new_post_gameState(gameState);
         load_chat(curr_chat);
     }
 }
 
 function boxClicked(id) {
+    //TODO: check if previousPlayer needed and refactor
     let box = document.getElementById(id);
-    if (box.innerText === "" && targetBox != null && currentPlayer === previousPlayer) {
-        targetBox.innerText = "";
+    if (box.innerText === "" && previousBox != null) {
+        previousBox.innerText = "";
     }
     boxId = id;
-    targetBox = box;
+    previousBox = box;
     box.innerText = currentPlayer;
-    previousPlayer = currentPlayer;
 }
 
 function playerHasWon() {
     for (const condition of WINNING_COMBOS) {
         let [a, b, c] = condition;
-
         if (gameState[a] && (gameState[a] === gameState[b] && gameState[a] === gameState[c])) {
+            gameState[11] = currentPlayer === X_TEXT ? gameState[9] : gameState[10];
             return [a, b, c];
         }
     }
@@ -94,15 +92,18 @@ function startTremolaToe(myId, opponentId) {
     gameState[9] = myId;
     gameState[10] = opponentId;
 
+    playerText = document.getElementById('playerText');
+    boxes = Array.from(document.getElementsByClassName('box'));
     currentPlayer = X_TEXT;
-    //previousPlayer = currentPlayer;
 
-    if (playerHasWon() || checkAllBoxes()) {
+    //TODO: check if previousPlayer necessary and refactor rest
+
+    if (playerHasWon()) {
 
         boxes.forEach(box => {
             box.innerText = '';
             box.style.backgroundColor = '';
-            box.style.pointerEvents = null;
+            box.style.pointerEvents = 'none';
         })
 
         document.getElementById('playerText').style.display = 'none';
@@ -115,17 +116,18 @@ function startTremolaToe(myId, opponentId) {
 function loadTremolaToe(newGameState) {
     gameState = newGameState;
     getCurrentPlayer();
-}
 
-function checkAllBoxes() {
+    playerText = document.getElementById('playerText');
     boxes = Array.from(document.getElementsByClassName('box'));
-    let counter = 0;
-    boxes.forEach(box => {
 
-        if (box.innerText !== "") {
-            counter++;
+    //TODO: load gameState graphically (boxes)
+    for (let i = 0; i < 9; i++) {
+        if (gameState[i] !== 0) {
+            boxes[i].innerText = gameState[i];
+            boxes[i].style.pointerEvents = 'none';
         }
-
-    })
-    return counter === 9;
+    }
+    //TODO: check if player allowed to play move or only watch gameState
 }
+
+//TODO: check draw state
