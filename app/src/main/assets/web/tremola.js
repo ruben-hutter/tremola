@@ -774,4 +774,10 @@ function new_post_gameState(gameState) {
     closeOverlay();
 }
 
+function remove_game_state() {
+    const opponent_id = get_opponent_id();
+    delete tremola.games.tremola_toe[opponent_id];
+    console.log("removeGameState: " + JSON.stringify(tremola.games.tremola_toe));
+}
+
 // --- eof

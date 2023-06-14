@@ -19,8 +19,8 @@ let playerText;
 let boxes;
 let gameState; //PROTOCOL: |0-8: boxes, 9: X_ID, 10: O_ID, 11: counter (X_ID has even and O_ID odd) & set to winner ID if finished|
 let boxId;
-let previousBox;
 let currentPlayer;
+let previousBox;
 
 function sendMove() {
     if (!gameState[boxId]) {
@@ -38,6 +38,7 @@ function sendMove() {
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
+            remove_game_state();
             return;
         } /*else if (// draw state) {
             document.getElementById('playerText').style.display = null;
@@ -51,7 +52,7 @@ function sendMove() {
         }
         */
 
-        currentPlayer = currentPlayer === X_TEXT ? O_TEXT : X_TEXT;
+        gameState[11]++;
         new_post_gameState(gameState);
         load_chat(curr_chat);
     }
@@ -120,7 +121,6 @@ function loadTremolaToe(newGameState) {
     playerText = document.getElementById('playerText');
     boxes = Array.from(document.getElementsByClassName('box'));
 
-    //TODO: load gameState graphically (boxes)
     for (let i = 0; i < 9; i++) {
         if (gameState[i] !== 0) {
             boxes[i].innerText = gameState[i];
