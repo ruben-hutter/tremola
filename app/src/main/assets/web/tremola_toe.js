@@ -117,7 +117,7 @@ function startTremolaToe(myId, opponentId) {
 function loadTremolaToe(newGameState) {
     gameState = newGameState;
     getCurrentPlayer();
-
+    previousBox = null;
     playerText = document.getElementById('playerText');
     boxes = Array.from(document.getElementsByClassName('box'));
 
