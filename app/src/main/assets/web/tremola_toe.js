@@ -23,25 +23,19 @@ let currentPlayer;
 let targetBox;
 
 function sendMove() {
-    if (!gameState[boxId]) {
+    if (boxId != null && !gameState[boxId]) {
         gameState[boxId] = currentPlayer;
-        //console.log("gameState: " + gameState);
-        document.getElementById(boxId).innerText = currentPlayer;
+        targetBox.innerText = currentPlayer;
         targetBox.style.pointerEvents = 'none';
+
+        // check if player already won
         const winningCombo = playerHasWon();
         if (winningCombo !== false) {
             gameState[11] = currentPlayer === X_TEXT ? gameState[9] : gameState[10];
-            displayWinner();
-        } /*else if (// draw state) {
-            document.getElementById('playerText').style.display = null;
-            document.getElementById('gameBoard').style.opacity = 0.5;
-
-            playerText.innerHTML = 'Draw';
-            boxes.forEach(box => {
-                box.style.pointerEvents = 'none';
-            })
+            displayGameFinished(true);
+        } else if (isDraw()) {
+            displayGameFinished(false);
         }
-        */
 
         gameState[11]++;
         new_post_gameState(gameState);
@@ -73,11 +67,10 @@ function playerHasWon() {
     return false;
 }
 
-function displayWinner() {
+function displayGameFinished(winner) {
     document.getElementById('playerText').style.display = null;
     document.getElementById('gameBoard').style.opacity = 0.5;
-
-    playerText.innerHTML = `${currentPlayer} has won!`;
+    playerText.innerHTML = winner === true ? `${currentPlayer} has won!` : "Draw";
     boxes.forEach(box => {
         box.style.pointerEvents = 'none';
     });
@@ -123,14 +116,18 @@ function loadTremolaToe(newGameState) {
     }
 
     //TODO: test when protocol implemented
-    if (playerHasWon()) { // check if game finished
-        displayWinner();
+    if (isGameFinished()) { // check if game finished
+        displayGameFinished(isDraw());
     } else if (!isPlayersTurn()) { // check if allowed to make a move
         boxes.forEach(box => {
             box.style.pointerEvents = 'none';
         });
         //TODO: block send button?
     }
+}
+
+function isGameFinished() {
+    return typeof gameState[11] != "number" || gameState[11] === 9;
 }
 
 function loadHTML() {
@@ -147,4 +144,7 @@ function isPlayersTurn() {
     }
 }
 
-//TODO: check draw state
+function isDraw() {
+    //TODO: change check
+    return gameState[11] === 8;
+}
