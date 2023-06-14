@@ -20,26 +20,18 @@ let boxes;
 let gameState; //PROTOCOL: |0-8: boxes, 9: X_ID, 10: O_ID, 11: counter (X_ID has even and O_ID odd) & set to winner ID if finished|
 let boxId;
 let currentPlayer;
-let previousBox;
+let targetBox;
 
 function sendMove() {
     if (!gameState[boxId]) {
         gameState[boxId] = currentPlayer;
         //console.log("gameState: " + gameState);
         document.getElementById(boxId).innerText = currentPlayer;
-        previousBox.style.pointerEvents = 'none';
+        targetBox.style.pointerEvents = 'none';
         const winningCombo = playerHasWon();
         if (winningCombo !== false) {
-            //TODO: Case distinction for winning gameState.
-            document.getElementById('playerText').style.display = null;
-            document.getElementById('gameBoard').style.opacity = 0.5;
-
-            playerText.innerHTML = `${currentPlayer} has won!`;
-            boxes.forEach(box => {
-                box.style.pointerEvents = 'none';
-            })
-            remove_game_state();
-            return;
+            gameState[11] = currentPlayer === X_TEXT ? gameState[9] : gameState[10];
+            displayWinner();
         } /*else if (// draw state) {
             document.getElementById('playerText').style.display = null;
             document.getElementById('gameBoard').style.opacity = 0.5;
@@ -48,78 +40,80 @@ function sendMove() {
             boxes.forEach(box => {
                 box.style.pointerEvents = 'none';
             })
-            return;
         }
         */
 
         gameState[11]++;
         new_post_gameState(gameState);
-        load_chat(curr_chat);
+        if (winningCombo === false) {
+            load_chat(curr_chat);
+        }
     }
 }
 
 function boxClicked(id) {
-    //TODO: check if previousPlayer needed and refactor
-    let box = document.getElementById(id);
-    if (box.innerText === "" && previousBox != null) {
-        previousBox.innerText = "";
-    }
     boxId = id;
-    previousBox = box;
-    box.innerText = currentPlayer;
+    let newTargetBox = document.getElementById(id);
+    // reset old targetBox to empty
+    if (newTargetBox.innerText === "" && targetBox != null) {
+        targetBox.innerText = "";
+    }
+    // set newTargetBox
+    targetBox = newTargetBox;
+    targetBox.innerText = currentPlayer;
 }
 
 function playerHasWon() {
     for (const condition of WINNING_COMBOS) {
         let [a, b, c] = condition;
         if (gameState[a] && (gameState[a] === gameState[b] && gameState[a] === gameState[c])) {
-            gameState[11] = currentPlayer === X_TEXT ? gameState[9] : gameState[10];
             return [a, b, c];
         }
     }
     return false;
 }
 
-function getCurrentPlayer() {
-    if (typeof gameState[11] === "number" && gameState[11] % 2 === 0) {
-        currentPlayer = X_TEXT;
-        return;
-    }
-    currentPlayer = O_TEXT;
+function displayWinner() {
+    document.getElementById('playerText').style.display = null;
+    document.getElementById('gameBoard').style.opacity = 0.5;
+
+    playerText.innerHTML = `${currentPlayer} has won!`;
+    boxes.forEach(box => {
+        box.style.pointerEvents = 'none';
+    });
+    remove_game_state();
 }
 
-function startTremolaToe(myId, opponentId) {
+function getCurrentPlayer() {
+    if (typeof gameState[11] != "number") {
+        currentPlayer = gameState[11] === gameState[9] ? O_TEXT : X_TEXT;
+        return;
+    }
+    currentPlayer = gameState[11] % 2 === 0 ? X_TEXT : O_TEXT;
+}
+
+function startTremolaToe(opponentId) {
     gameState = new Array(12).fill(0);
     gameState[9] = myId;
     gameState[10] = opponentId;
-
-    playerText = document.getElementById('playerText');
-    boxes = Array.from(document.getElementsByClassName('box'));
     currentPlayer = X_TEXT;
+    loadHTML();
 
-    //TODO: check if previousPlayer necessary and refactor rest
-
-    if (playerHasWon()) {
-
-        boxes.forEach(box => {
-            box.innerText = '';
-            box.style.backgroundColor = '';
-            box.style.pointerEvents = 'none';
-        })
-
-        document.getElementById('playerText').style.display = 'none';
-        document.getElementById('gameBoard').style.display = null;
-        document.getElementById('gameBoard').style.opacity = 1;
-        currentPlayer = X_TEXT;
-    }
+    boxes.forEach(box => {
+        box.innerText = '';
+        box.style.pointerEvents = null;
+    })
+    document.getElementById('playerText').style.display = 'none';
+    document.getElementById('gameBoard').style.display = null;
+    document.getElementById('gameBoard').style.opacity = 1;
 }
 
 function loadTremolaToe(newGameState) {
+    // load gameState
     gameState = newGameState;
+    targetBox = null;
     getCurrentPlayer();
-    previousBox = null;
-    playerText = document.getElementById('playerText');
-    boxes = Array.from(document.getElementsByClassName('box'));
+    loadHTML();
 
     for (let i = 0; i < 9; i++) {
         if (gameState[i] !== 0) {
@@ -127,7 +121,30 @@ function loadTremolaToe(newGameState) {
             boxes[i].style.pointerEvents = 'none';
         }
     }
-    //TODO: check if player allowed to play move or only watch gameState
+
+    //TODO: test when protocol implemented
+    if (playerHasWon()) { // check if game finished
+        displayWinner();
+    } else if (!isPlayersTurn()) { // check if allowed to make a move
+        boxes.forEach(box => {
+            box.style.pointerEvents = 'none';
+        });
+        //TODO: block send button?
+    }
+}
+
+function loadHTML() {
+    playerText = document.getElementById('playerText');
+    boxes = Array.from(document.getElementsByClassName('box'));
+}
+
+function isPlayersTurn() {
+    if (typeof gameState[11] != "number") {
+        return false;
+    }
+    if (gameState[11] % 2 === 0) {
+        return myId === gameState[9];
+    }
 }
 
 //TODO: check draw state

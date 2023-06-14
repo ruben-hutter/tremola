@@ -629,7 +629,7 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
     // console.log('pub', JSON.stringify(e.public))
     // console.log('cfd', JSON.stringify(e.confid))
     if (e.confid && e.confid.type === 'post' || e.confid && e.confid.type === 'gameState') {
-        var i, conv_name = recps2nm(e.confid.recps);
+        let i, conv_name = recps2nm(e.confid.recps);
         if (!(conv_name in tremola.chats)) { // create new conversation if needed
             tremola.chats[conv_name] = {
                 "alias": "Unnamed conversation", "posts": {},
@@ -638,12 +638,12 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
             load_chat_list()
         }
         for (i in e.confid.recps) {
-            var id, r = e.confid.recps[i];
+            let id, r = e.confid.recps[i];
             if (!(r in tremola.contacts))
                 id2b32(r, 'b2f_new_event_back')
 
         }
-        var ch = tremola.chats[conv_name];
+        const ch = tremola.chats[conv_name];
         if (!(e.header.ref in ch.posts)) { // new post
             // var d = new Date(e.header.tst);
             // d = d.toDateString() + ' ' + d.toTimeString().substring(0,5);
