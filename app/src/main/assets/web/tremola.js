@@ -560,8 +560,8 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         // console.log('e=', JSON.stringify(e))
         b2f_new_event(e)
     } else if (cmdStr[0] === 'priv:gamePost') {
-        const gameName = atob(cmdStr[1])
-        const gameState = atob(cmdStr[2])
+        const gameName = cmdStr[1]
+        const gameState = cmdStr[2]
         const recp = cmdStr[3]
         const e = {
             'header': {
@@ -675,9 +675,12 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
         load_chat_list();
         // console.log(JSON.stringify(tremola))
     } else if (e.confid && e.confid.type === 'gamePost') {
-        //TODO: handle received input -> update gameState
-        backend("priv:post " + btoa("Game Update: " + e.confid.gameName) + " " + e.confid.recp);
-        console.log("b2f_new_event: gamePost");
+        console.log("test:", JSON.stringify(tremola.games));
+        const gameName = e.confid.gameName;
+        const openGames = tremola.games[gameName];
+        if (!(e.header.fid in openGames) && e.header.fid !== myId) { // new gamePost
+            openGames[gameName][e.header.fid] = e.confid.gameState;
+        }
     }
     persist();
     must_redraw = true;
@@ -728,7 +731,6 @@ function b2f_initialize(id) {
 
 // --- Games ---
 const GAMES = ["tremola_toe", "game_2", "game_3"];
-//TODO: create a variable opponent_id that can be just accessed
 
 function get_opponent_id() {
     const opponent_id = tremola.chats[curr_chat].members[0];
@@ -766,6 +768,7 @@ function start_game(gameName) {
 }
 
 function load_game(gameName) {
+    console.log("load_game:", JSON.stringify(tremola.games[gameName]));
     const opponent_id = get_opponent_id();
     const open_games = tremola.games[gameName];
     switch (gameName) {
@@ -781,27 +784,21 @@ function load_game(gameName) {
 
 function new_post_gameState(gameName, gameState) {
     const opponent_id = get_opponent_id();
-    switch (gameName) {
-        case GAMES[0]:
-            update_game_state(gameName, gameState);
-            break;
-        case GAMES[1]:
-            break;
-        case GAMES[2]:
-            break;
-    }
-    backend("priv:gamePost " + gameName + " " + btoa(gameState) + " " + opponent_id);
+    update_game_state(gameName, gameState);
+    backend("priv:gamePost " + gameName + " " + gameState + " " + opponent_id);
+    backend("priv:post " + btoa("Game Update: " + gameName) + " " + opponent_id);
     const c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
     closeOverlay();
 }
 
 function update_game_state(gameName, gameState) {
+    console.log("update_game_state: " + gameState);
     const opponent_id = get_opponent_id();
     switch (gameName) {
         case GAMES[0]:
-            if (!("tremola_toe" in tremola.games)) {
-                tremola.games["tremola_toe"] = {};
+            if (!(GAMES[0] in tremola.games)) {
+                tremola.games[GAMES[0]] = {};
             }
             tremola.games.tremola_toe[opponent_id] = gameState;
             break;

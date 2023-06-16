@@ -127,10 +127,13 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
             }
             "priv:gamePost" -> { // Post a private chat for the game
                 // atob(text) recipient
+                val gameName = args[1]
+                val gameState = args[2]
+                val recp = args[3]
                 val rawStr = tremolaState.msgTypes.mkGamePost(
-                    args[1],
-                    Base64.decode(args[2], Base64.NO_WRAP).decodeToString(),
-                    args[3]
+                    gameName,
+                    gameState,
+                    recp
                 )
                 val evnt = tremolaState.msgTypes.jsonToLogEntry(
                     rawStr,

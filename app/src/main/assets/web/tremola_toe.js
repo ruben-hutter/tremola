@@ -85,7 +85,7 @@ function getCurrentPlayer() {
     currentPlayer = gameState[11] % 2 === 0 ? X_TEXT : O_TEXT;
 }
 
-function startTremolaToe(opponentId) {
+function startTremolaToe(myId, opponentId) {
     gameState = new Array(12).fill(0);
     gameState[9] = myId;
     gameState[10] = opponentId;
@@ -122,7 +122,6 @@ function loadTremolaToe(newGameState) {
         boxes.forEach(box => {
             box.style.pointerEvents = 'none';
         });
-        //TODO: block send button?
     }
 }
 
