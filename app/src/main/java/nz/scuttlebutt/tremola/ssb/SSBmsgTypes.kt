@@ -43,6 +43,19 @@ class SSBmsgTypes(val tremolaState: TremolaState) {
         return mkWire(ctxt)
     }
 
+    fun mkGamePost(gameState: String, toWhom: String): String {
+        val keys: MutableList<ByteArray> = mutableListOf<ByteArray>()
+        keys.add(me.deRef())
+        val post = JSONObject()
+        post.put("type", "gamePost")
+        post.put("gameState", gameState)
+        post.put("recp", toWhom)
+        Log.d("GAME_POST", post.toString())
+        val ctxt = id.encryptPrivateMessage(post.toString(), keys)
+        Log.d("GAME_POST", ctxt)
+        return mkWire(ctxt)
+    }
+
     fun mkFollow(target: String, following: Boolean = true): String {
         val contact = JSONObject()
         contact.put("type", "contact")

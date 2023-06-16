@@ -79,7 +79,7 @@ function displayGameFinished(winner) {
 
 function getCurrentPlayer() {
     if (typeof gameState[11] != "number") {
-        currentPlayer = gameState[11] === gameState[9] ? O_TEXT : X_TEXT;
+        currentPlayer = gameState[11] === gameState[9] ? O_TEXT : X_TEXT; //TODO: check if not to flip conditions
         return;
     }
     currentPlayer = gameState[11] % 2 === 0 ? X_TEXT : O_TEXT;
@@ -145,6 +145,6 @@ function isPlayersTurn() {
 }
 
 function isDraw() {
-    //TODO: change check
-    return gameState[11] === 8;
+    //TODO: test
+    return gameState[11] >= 8;
 }

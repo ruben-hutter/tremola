@@ -191,7 +191,7 @@ function new_post(s) {
     }
     var draft = unicodeStringToTypedArray(document.getElementById('draft').value); // escapeHTML(
     var recps = tremola.chats[curr_chat].members.join(' ')
-    console.info("current chat: "+ curr_chat);
+    console.info("current chat: " + curr_chat);
     backend("priv:post " + btoa(draft) + " " + recps);
     var c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
@@ -545,7 +545,7 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         b2f_initialize('@AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=.ed25519')
     else if (cmdStr[0] === 'exportSecret')
         b2f_showSecret('secret_of_id_which_is@AAAA==.ed25519')
-    else if (cmdStr[0] === 'priv:post' || cmdStr[0] === 'priv:gameState') {
+    else if (cmdStr[0] === 'priv:post') {
         var draft = atob(cmdStr[1])
         cmdStr.splice(0, 2)
         var e = {
@@ -558,6 +558,19 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
             'public': {}
         }
         // console.log('e=', JSON.stringify(e))
+        b2f_new_event(e)
+    } else if (cmdStr[0] === 'priv:gamePost') {
+        //TODO: as "text" not gameState but some message to display
+        const gameState = atob(cmdStr[1])
+        const e = {
+            'header': {
+                'tst': Date.now(),
+                'ref': Math.floor(1000000 * Math.random()),
+                'fid': myId
+            },
+            'confid': {'type': 'gamePost', 'text': gameState, 'recp': cmdStr[2]},
+            'public': {}
+        }
         b2f_new_event(e)
     } else {
         // console.log('backend', JSON.stringify(cmdStr))
@@ -623,12 +636,12 @@ function b2f_new_contact_lookup(target_short_name, new_contact_id) {
     persist();
     menu_redraw();
 }
-//TODO: Add functionality to filter the gameState, such that it does not get posted as normal message.
+
 function b2f_new_event(e) { // incoming SSB log event: we get map with three entries
     // console.log('hdr', JSON.stringify(e.header))
     // console.log('pub', JSON.stringify(e.public))
     // console.log('cfd', JSON.stringify(e.confid))
-    if (e.confid && e.confid.type === 'post' || e.confid && e.confid.type === 'gameState') {
+    if (e.confid && e.confid.type === 'post') {
         let i, conv_name = recps2nm(e.confid.recps);
         if (!(conv_name in tremola.chats)) { // create new conversation if needed
             tremola.chats[conv_name] = {
@@ -660,6 +673,9 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
         // if (curr_scenario == "chats") // the updated conversation could bubble up
         load_chat_list();
         // console.log(JSON.stringify(tremola))
+    } else if (e.confid && e.confid.type === 'gamePost') {
+        //TODO: implement case for gamePost
+        // post: "Game Update: GAME_NAME"
     }
     persist();
     must_redraw = true;
@@ -760,7 +776,6 @@ function load_game(gameName) {
     }
 }
 
-//TODO: make general (not only for tremola_toe)
 function new_post_gameState(gameState) {
     const opponent_id = get_opponent_id();
     if (!("tremola_toe" in tremola.games)) {
@@ -768,7 +783,7 @@ function new_post_gameState(gameState) {
     }
     tremola.games.tremola_toe[opponent_id] = gameState;
 
-    backend("priv:gameState " + btoa(gameState) + " " + opponent_id);
+    backend("priv:gamePost " + btoa(gameState) + " " + opponent_id);
     const c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
     closeOverlay();

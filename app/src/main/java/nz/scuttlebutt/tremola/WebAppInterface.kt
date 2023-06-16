@@ -31,7 +31,7 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
      */
     @JavascriptInterface
     fun onFrontendRequest(s: String) {
-        //handle the data captured from webview}
+        //handle the data captured from webview
         Log.d("FrontendRequest", s)
         val args = s.split(" ")
         when (args[0]) {
@@ -125,21 +125,17 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
                 evnt?.let { rx_event(it) } // persist it, propagate horizontally and also up
                 return
             }
-            "priv:gameState" -> { // Post a private chat for the game
+            "priv:gamePost" -> { // Post a private chat for the game
                 // atob(text) recipient
-                val rawStr = tremolaState.msgTypes.mkPost(
+                val rawStr = tremolaState.msgTypes.mkGamePost(
                     Base64.decode(args[1], Base64.NO_WRAP).decodeToString(),
-                    args.slice(2..args.lastIndex)
+                    args[2]
                 )
                 val evnt = tremolaState.msgTypes.jsonToLogEntry(
                     rawStr,
                     rawStr.encodeToByteArray()
                 )
                 evnt?.let { rx_event(it) } // persist it, propagate horizontally and also up
-                //TODO: 2 cases, one for sending and one for receiving
-                // sending: almost what we already have
-                // receiving: update actual gameState
-                // eval("receive_from_backend('...')")
                 return
             }
             "priv:hash" -> { // Compute the shortname from the public key
@@ -262,7 +258,7 @@ class WebAppInterface(private val act: Activity, val tremolaState: TremolaState,
         hdr.put("seq", evnt.lsq)
         hdr.put("pre", evnt.pre)
         hdr.put("tst", evnt.tst)
-        var cmd = "b2f_new_event({header:${hdr.toString()},"
+        var cmd = "b2f_new_event({header:$hdr,"
         cmd += "public:" + (if (evnt.pub == null) "null" else evnt.pub) + ","
         cmd += "confid:" + (if (evnt.pri == null) "null" else evnt.pri)
         cmd += "});"
