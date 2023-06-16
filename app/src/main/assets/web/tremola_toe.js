@@ -38,7 +38,7 @@ function sendMove() {
         }
 
         gameState[11]++;
-        new_post_gameState(gameState);
+        new_post_gameState(GAMES[0], gameState);
         if (winningCombo === false) {
             load_chat(curr_chat);
         }

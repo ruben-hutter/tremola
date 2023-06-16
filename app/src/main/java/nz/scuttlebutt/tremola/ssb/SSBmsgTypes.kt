@@ -43,11 +43,12 @@ class SSBmsgTypes(val tremolaState: TremolaState) {
         return mkWire(ctxt)
     }
 
-    fun mkGamePost(gameState: String, toWhom: String): String {
+    fun mkGamePost(gameName: String, gameState: String, toWhom: String): String {
         val keys: MutableList<ByteArray> = mutableListOf<ByteArray>()
         keys.add(me.deRef())
         val post = JSONObject()
         post.put("type", "gamePost")
+        post.put("gameName", gameName)
         post.put("gameState", gameState)
         post.put("recp", toWhom)
         Log.d("GAME_POST", post.toString())

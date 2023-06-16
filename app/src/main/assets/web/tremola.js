@@ -560,15 +560,16 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         // console.log('e=', JSON.stringify(e))
         b2f_new_event(e)
     } else if (cmdStr[0] === 'priv:gamePost') {
-        //TODO: as "text" not gameState but some message to display
-        const gameState = atob(cmdStr[1])
+        const gameName = atob(cmdStr[1])
+        const gameState = atob(cmdStr[2])
+        const recp = cmdStr[3]
         const e = {
             'header': {
                 'tst': Date.now(),
                 'ref': Math.floor(1000000 * Math.random()),
                 'fid': myId
             },
-            'confid': {'type': 'gamePost', 'text': gameState, 'recp': cmdStr[2]},
+            'confid': {'type': 'gamePost', 'gameName': gameName, 'gameState': gameState, 'recp': recp},
             'public': {}
         }
         b2f_new_event(e)
@@ -660,7 +661,7 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
         if (!(e.header.ref in ch.posts)) { // new post
             // var d = new Date(e.header.tst);
             // d = d.toDateString() + ' ' + d.toTimeString().substring(0,5);
-            var p = {"key": e.header.ref, "from": e.header.fid, "body": e.confid.text, "when": e.header.tst};
+            const p = {"key": e.header.ref, "from": e.header.fid, "body": e.confid.text, "when": e.header.tst};
             ch["posts"][e.header.ref] = p;
             if (ch["touched"] < e.header.tst)
                 ch["touched"] = e.header.tst
@@ -674,8 +675,9 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
         load_chat_list();
         // console.log(JSON.stringify(tremola))
     } else if (e.confid && e.confid.type === 'gamePost') {
-        //TODO: implement case for gamePost
-        // post: "Game Update: GAME_NAME"
+        //TODO: handle received input -> update gameState
+        backend("priv:post " + btoa("Game Update: " + e.confid.gameName) + " " + e.confid.recp);
+        console.log("b2f_new_event: gamePost");
     }
     persist();
     must_redraw = true;
@@ -726,6 +728,7 @@ function b2f_initialize(id) {
 
 // --- Games ---
 const GAMES = ["tremola_toe", "game_2", "game_3"];
+//TODO: create a variable opponent_id that can be just accessed
 
 function get_opponent_id() {
     const opponent_id = tremola.chats[curr_chat].members[0];
@@ -776,23 +779,42 @@ function load_game(gameName) {
     }
 }
 
-function new_post_gameState(gameState) {
+function new_post_gameState(gameName, gameState) {
     const opponent_id = get_opponent_id();
-    if (!("tremola_toe" in tremola.games)) {
-        tremola.games["tremola_toe"] = {};
+    switch (gameName) {
+        case GAMES[0]:
+            update_game_state(gameName, gameState);
+            break;
+        case GAMES[1]:
+            break;
+        case GAMES[2]:
+            break;
     }
-    tremola.games.tremola_toe[opponent_id] = gameState;
-
-    backend("priv:gamePost " + btoa(gameState) + " " + opponent_id);
+    backend("priv:gamePost " + gameName + " " + btoa(gameState) + " " + opponent_id);
     const c = document.getElementById('core');
     c.scrollTop = c.scrollHeight;
     closeOverlay();
 }
 
+function update_game_state(gameName, gameState) {
+    const opponent_id = get_opponent_id();
+    switch (gameName) {
+        case GAMES[0]:
+            if (!("tremola_toe" in tremola.games)) {
+                tremola.games["tremola_toe"] = {};
+            }
+            tremola.games.tremola_toe[opponent_id] = gameState;
+            break;
+        case GAMES[1]:
+            break;
+        case GAMES[2]:
+            break;
+    }
+}
+
 function remove_game_state() {
     const opponent_id = get_opponent_id();
     delete tremola.games.tremola_toe[opponent_id];
-    console.log("removeGameState: " + JSON.stringify(tremola.games.tremola_toe));
 }
 
 // --- eof
