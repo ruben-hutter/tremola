@@ -675,12 +675,14 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
         load_chat_list();
         // console.log(JSON.stringify(tremola))
     } else if (e.confid && e.confid.type === 'gamePost') {
-        console.log("test:", JSON.stringify(tremola.games));
+        console.log("b2f_gamePost:", JSON.stringify(tremola.games));
         const gameName = e.confid.gameName;
         const openGames = tremola.games[gameName];
-        if (!(e.header.fid in openGames) && e.header.fid !== myId) { // new gamePost
+        if (e.header.fid !== myId) { // new gamePost
             openGames[gameName][e.header.fid] = e.confid.gameState;
+            console.log("b2f_gamePost:", "saved new gameState (only on receiving device normally)");
         }
+        console.log("b2f_gamePost:", JSON.stringify(tremola.games));
     }
     persist();
     must_redraw = true;
