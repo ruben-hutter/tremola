@@ -42,6 +42,7 @@ function sendMove() {
         if (winningCombo === false) {
             load_chat(curr_chat);
         }
+        console.log("send_move:", gameState);
     }
 }
 
