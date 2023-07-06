@@ -684,11 +684,7 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
         }
         const openGames = tremola.games[gameName];
         openGames[e.header.fid] = e.confid.gameState.split(',');
-        for (let box in openGames[e.header.fid]) {
-            if (box === "0") {
-                box = 0;
-            }
-        }
+        cast_gameState(gameName, e.header.fid);
         console.log("b2f_gamePost:", JSON.stringify(tremola.games));
     }
     persist();
@@ -802,7 +798,6 @@ function new_post_gameState(gameName, gameState) {
 }
 
 function update_game_state(gameName, gameState) {
-    console.log("update_game_state: " + gameState);
     const opponent_id = get_opponent_id();
     switch (gameName) {
         case GAMES[0]:
@@ -816,6 +811,20 @@ function update_game_state(gameName, gameState) {
         case GAMES[2]:
             break;
     }
+}
+
+function cast_gameState(gameName, opponentId) {
+    let gameState = tremola.games[gameName][opponentId];
+    for (let i = 0; i < 9; i++) {
+        if (gameState[i] === "0") {
+            gameState[i] = 0;
+        }
+    }
+    let counter = parseInt(gameState[11]);
+    if (!Number.isNaN(counter)) {
+        gameState[11] = counter;
+    }
+    console.log("cast_gameState:", gameState);
 }
 
 function remove_game_state() {

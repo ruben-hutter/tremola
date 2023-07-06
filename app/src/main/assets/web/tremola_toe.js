@@ -30,19 +30,25 @@ function sendMove() {
 
         // check if player already won
         const winningCombo = playerHasWon();
+        const winner = getWinner();
         if (winningCombo !== false) {
             gameState[11] = currentPlayer === X_TEXT ? gameState[9] : gameState[10];
-            displayGameFinished(true);
-        } else if (isDraw()) {
-            displayGameFinished(false);
+            displayGameFinished(gameState[11]);
+        } else if (winner === -1) {
+            displayGameFinished(winner);
         }
 
-        gameState[11]++;
+        if (typeof gameState[11] == "number") {
+            gameState[11]++;
+        }
         new_post_gameState(GAMES[0], gameState);
-        if (winningCombo === false) {
+        if (winningCombo === false && winner !== -1) {
+            console.log("sendMove:", winner);
             load_chat(curr_chat);
         }
-        console.log("send_move:", gameState);
+        if (typeof winner != "number" || winner === -1) {
+            remove_game_state();
+        }
     }
 }
 
@@ -71,19 +77,22 @@ function playerHasWon() {
 function displayGameFinished(winner) {
     document.getElementById('playerText').style.display = null;
     document.getElementById('gameBoard').style.opacity = 0.5;
-    playerText.innerHTML = winner === true ? `${currentPlayer} has won!` : "Draw";
+    playerText.innerHTML = winner !== -1 ? `${getWinnerText(winner)} has won!` : "Draw";
     boxes.forEach(box => {
         box.style.pointerEvents = 'none';
     });
-    remove_game_state();
 }
 
 function getCurrentPlayer() {
     if (typeof gameState[11] != "number") {
-        currentPlayer = gameState[11] === gameState[9] ? O_TEXT : X_TEXT; //TODO: check if not to flip conditions
+        currentPlayer = gameState[11] === gameState[9] ? O_TEXT : X_TEXT;
         return;
     }
     currentPlayer = gameState[11] % 2 === 0 ? X_TEXT : O_TEXT;
+}
+
+function getWinnerText(playerId) {
+    return playerId === gameState[9] ? X_TEXT : O_TEXT;
 }
 
 function startTremolaToe(myId, opponentId) {
@@ -113,12 +122,15 @@ function loadTremolaToe(newGameState) {
         if (gameState[i] !== 0) {
             boxes[i].innerText = gameState[i];
             boxes[i].style.pointerEvents = 'none';
+        } else {
+            boxes[i].innerText = "";
+            boxes[i].style.pointerEvents = null;
         }
     }
 
-    //TODO: test when protocol implemented
     if (isGameFinished()) { // check if game finished
-        displayGameFinished(isDraw());
+        displayGameFinished(getWinner());
+        remove_game_state();
     } else if (!isPlayersTurn()) { // check if allowed to make a move
         boxes.forEach(box => {
             box.style.pointerEvents = 'none';
@@ -127,7 +139,7 @@ function loadTremolaToe(newGameState) {
 }
 
 function isGameFinished() {
-    return typeof gameState[11] != "number" || gameState[11] === 9;
+    return typeof gameState[11] != "number" || gameState[11] > 8;
 }
 
 function loadHTML() {
@@ -139,12 +151,17 @@ function isPlayersTurn() {
     if (typeof gameState[11] != "number") {
         return false;
     }
-    if (gameState[11] % 2 === 0) {
-        return myId === gameState[9];
+    if (gameState[11] % 2 === 0 && myId === gameState[9]) {
+        return true;
+    } else if (gameState[11] % 2 === 1 && myId === gameState[10]) {
+        return true;
     }
 }
 
-function isDraw() {
-    //TODO: test
-    return gameState[11] >= 8;
+function getWinner() {
+    if (typeof gameState[11] == "number" && gameState[11] >= 8) {
+        // Draw
+        return -1;
+    }
+    return gameState[11];
 }
