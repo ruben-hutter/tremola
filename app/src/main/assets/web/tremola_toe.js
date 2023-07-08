@@ -135,6 +135,11 @@ function loadTremolaToe(newGameState) {
         boxes.forEach(box => {
             box.style.pointerEvents = 'none';
         });
+
+    } else if (isPlayersTurn()) {
+        document.getElementById('playerText').style.display = 'none';
+        document.getElementById('gameBoard').style.display = null;
+        document.getElementById('gameBoard').style.opacity = 1;
     }
 }
 
