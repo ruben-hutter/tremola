@@ -773,7 +773,6 @@ function start_game(gameName) {
 }
 
 function load_game(gameName) {
-    console.log("load_game:", JSON.stringify(tremola.games[gameName]));
     const opponent_id = get_opponent_id();
     const open_games = tremola.games[gameName];
     switch (gameName) {
@@ -824,7 +823,6 @@ function cast_gameState(gameName, opponentId) {
     if (!Number.isNaN(counter)) {
         gameState[11] = counter;
     }
-    console.log("cast_gameState:", gameState);
 }
 
 function remove_game_state() {

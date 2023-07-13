@@ -43,7 +43,6 @@ function sendMove() {
         }
         new_post_gameState(GAMES[0], gameState);
         if (winningCombo === false && winner !== -1) {
-            console.log("sendMove:", winner);
             load_chat(curr_chat);
         }
         if (typeof winner != "number" || winner === -1) {
